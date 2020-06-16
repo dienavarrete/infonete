@@ -1,142 +1,142 @@
 drop database if exists infonete;
-CREATE DATABASE infonete;
+create database infonete;
 use infonete;
 
-CREATE TABLE pago
+create table pago
 (
-    id     INT PRIMARY KEY AUTO_INCREMENT,
-    codigo VARCHAR(50)
+    id     int primary key auto_increment,
+    codigo varchar(50)
 );
 
-CREATE TABLE rol
+create table rol
 (
-    id          INT PRIMARY KEY AUTO_INCREMENT,
-    codigo      VARCHAR(50),
-    descripcion VARCHAR(50)
+    id          int primary key auto_increment,
+    codigo      varchar(50),
+    descripcion varchar(50)
 );
 
-CREATE TABLE localidad
+create table localidad
 (
-    id          INT PRIMARY KEY AUTO_INCREMENT,
-    codigo      VARCHAR(50),
-    descripcion VARCHAR(50)
+    id          int primary key auto_increment,
+    codigo      varchar(50),
+    descripcion varchar(50)
 );
 
-CREATE TABLE persona
+create table persona
 (
-    id               INT PRIMARY KEY AUTO_INCREMENT,
-    apellido         VARCHAR(50),
-    nombre           VARCHAR(50),
-    fecha_nacimiento VARCHAR(50),
-    id_localidad     INT,
-    FOREIGN KEY (id_localidad)
-        REFERENCES localidad (id)
+    id               int primary key auto_increment,
+    apellido         varchar(50),
+    nombre           varchar(50),
+    fecha_nacimiento varchar(50),
+    id_localidad     int,
+    foreign key (id_localidad)
+        references localidad (id)
 );
 
-CREATE TABLE usuario
+create table usuario
 (
-    id         INT PRIMARY KEY AUTO_INCREMENT,
-    nombre     VARCHAR(50),
-    password   VARCHAR(50),
-    id_persona INT,
-    id_rol     INT,
-    FOREIGN KEY (id_persona)
-        REFERENCES persona (id),
-    FOREIGN KEY (id_rol)
-        REFERENCES rol (id)
+    id         int primary key auto_increment,
+    nombre     varchar(50),
+    password   varchar(50),
+    id_persona int,
+    id_rol     int,
+    foreign key (id_persona)
+        references persona (id),
+    foreign key (id_rol)
+        references rol (id)
 );
 
-CREATE TABLE suscripcion
+create table suscripcion
 (
-    id                   INT PRIMARY KEY AUTO_INCREMENT,
-    fecha_vigencia_desde DATE,
-    fecha_vigencia_hasta DATE,
-    id_pago              INT,
-    id_usuario           INT,
-    FOREIGN KEY (id_pago)
-        REFERENCES pago (id),
-    FOREIGN KEY (id_usuario)
-        REFERENCES usuario (id)
+    id                   int primary key auto_increment,
+    fecha_vigencia_desde date,
+    fecha_vigencia_hasta date,
+    id_pago              int,
+    id_usuario           int,
+    foreign key (id_pago)
+        references pago (id),
+    foreign key (id_usuario)
+        references usuario (id)
 );
 
-CREATE TABLE estado
+create table estado
 (
-    id          INT PRIMARY KEY AUTO_INCREMENT,
-    codigo      VARCHAR(50),
-    descripcion VARCHAR(50)
+    id          int primary key auto_increment,
+    codigo      varchar(50),
+    descripcion varchar(50)
 );
 
-CREATE TABLE tipo_publicacion
+create table tipo_publicacion
 (
-    id          INT PRIMARY KEY AUTO_INCREMENT,
-    codigo      VARCHAR(50),
-    descripcion VARCHAR(50)
+    id          int primary key auto_increment,
+    codigo      varchar(50),
+    descripcion varchar(50)
 );
 
-CREATE TABLE genero_publicacion
+create table genero_publicacion
 (
-    id          INT PRIMARY KEY AUTO_INCREMENT,
-    codigo      VARCHAR(50),
-    descripcion VARCHAR(50)
+    id          int primary key auto_increment,
+    codigo      varchar(50),
+    descripcion varchar(50)
 );
 
-CREATE TABLE publicacion
+create table publicacion
 (
-    id                  INT PRIMARY KEY AUTO_INCREMENT,
-    contenido_gratuito  BOOLEAN,
-    estado_registro     BOOLEAN,
-    id_genero           INT,
-    id_tipo_publicacion INT,
-    id_estado           INT,
-    FOREIGN KEY (id_genero)
-        REFERENCES genero_publicacion (id),
-    FOREIGN KEY (id_tipo_publicacion)
-        REFERENCES tipo_publicacion (id),
-    FOREIGN KEY (id_estado)
-        REFERENCES estado (id)
+    id                  int primary key auto_increment,
+    contenido_gratuito  boolean,
+    estado_registro     boolean,
+    id_genero           int,
+    id_tipo_publicacion int,
+    id_estado           int,
+    foreign key (id_genero)
+        references genero_publicacion (id),
+    foreign key (id_tipo_publicacion)
+        references tipo_publicacion (id),
+    foreign key (id_estado)
+        references estado (id)
 );
 
-CREATE TABLE seccion
+create table seccion
 (
-    id              INT PRIMARY KEY AUTO_INCREMENT,
-    estado_registro BOOLEAN,
-    id_publicacion  INT,
-    id_estado       INT,
-    FOREIGN KEY (id_publicacion)
-        REFERENCES publicacion (id),
-    FOREIGN KEY (id_estado)
-        REFERENCES estado (id),
-    FOREIGN KEY (id_publicacion)
-        REFERENCES publicacion (id)
+    id              int primary key auto_increment,
+    estado_registro boolean,
+    id_publicacion  int,
+    id_estado       int,
+    foreign key (id_publicacion)
+        references publicacion (id),
+    foreign key (id_estado)
+        references estado (id),
+    foreign key (id_publicacion)
+        references publicacion (id)
 );
 
-CREATE TABLE noticia
+create table noticia
 (
-    id              INT PRIMARY KEY AUTO_INCREMENT,
-    estado_registro BOOLEAN,
-    id_seccion      INT,
-    id_contenidista INT,
-    id_localidad    INT,
-    id_estado       INT,
-    FOREIGN KEY (id_seccion)
-        REFERENCES seccion (id),
-    FOREIGN KEY (id_contenidista)
-        REFERENCES usuario (id),
-    FOREIGN KEY (id_localidad)
-        REFERENCES localidad (id),
-    FOREIGN KEY (id_estado)
-        REFERENCES estado (id)
+    id              int primary key auto_increment,
+    estado_registro boolean,
+    id_seccion      int,
+    id_contenidista int,
+    id_localidad    int,
+    id_estado       int,
+    foreign key (id_seccion)
+        references seccion (id),
+    foreign key (id_contenidista)
+        references usuario (id),
+    foreign key (id_localidad)
+        references localidad (id),
+    foreign key (id_estado)
+        references estado (id)
 );
 
-CREATE TABLE publicacion_usuario
+create table publicacion_usuario
 (
-    id             INT PRIMARY KEY AUTO_INCREMENT,
-    id_usuario     INT,
-    id_publicacion INT,
-    FOREIGN KEY (id_usuario)
-        REFERENCES usuario (id),
-    FOREIGN KEY (id_publicacion)
-        REFERENCES publicacion (id)
+    id             int primary key auto_increment,
+    id_usuario     int,
+    id_publicacion int,
+    foreign key (id_usuario)
+        references usuario (id),
+    foreign key (id_publicacion)
+        references publicacion (id)
 );
 
 
