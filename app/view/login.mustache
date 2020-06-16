@@ -1,0 +1,12 @@
+<form action="/login/usuario" method="post">
+    <label for="nombre">Nombre:
+        <input type="text" name="nombre" id="nombre"></label>
+
+    <label for="password">Password:
+        <input type="password" name="password" id="password"></label>
+    <button type="submit">Ingresar</button>
+
+</form>
+{{#error}}
+    <b style="color:red;">{{error}}</b>
+{{/error}}

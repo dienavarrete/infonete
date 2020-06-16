@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Usuario logueado</title>
+</head>
+<body>
+{{> header}}
+<div class="container">
+    <h1>Bienvenido</h1>
+    <h2>Será redirigido a una nueva página</h2>
+</div>
+{{> footer}}
+<script type="application/javascript">
+    setTimeout(function() {
+        window.location.href = '/dashboard';
+    }, 3000);
+</script>
+</body>
+</html>
+
