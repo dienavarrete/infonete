@@ -14,7 +14,7 @@ services:
     expose:
       - 3306
     volumes:
-      - "${MYSQL_DATA}:/var/lib/mysql"
+      - "./app/docker-scripts/sql:/docker-entrypoint-initdb.d"
 
   PW2-php:
     image: php:${PHP_VERSION}
