@@ -39,9 +39,11 @@ class ModuleInitializer
     {
         include_once("controller/RegistroController.php");
         include_once("dao/UsuarioDAO.php");
+        include_once("dao/PersonaDAO.php");
 
         $usuarioDao = new UsuarioDAO($this->database);
-        return new RegistroController($usuarioDao, $this->renderer);
+        $personaDao = new PersonaDAO($this->database);
+        return new RegistroController($usuarioDao, $personaDao, $this->renderer);
     }
 
     /**

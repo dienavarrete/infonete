@@ -1,6 +1,7 @@
 <?php
 
 require_once('excepciones/EntityNotFoundException.php');
+require_once('excepciones/InsertEntityException.php');
 
 class Database
 {
@@ -8,17 +9,17 @@ class Database
     private static $database = "database";
 
     private static $instance;
-    private $connexion;
+    private $conexion;
 
     private function __construct($servername, $username, $password, $dbname)
     {
-        $this->connexion = mysqli_connect($servername, $username, $password, $dbname)
+        $this->conexion = mysqli_connect($servername, $username, $password, $dbname)
         or die("Connection failed: " . mysqli_connect_error());
     }
 
     public function query($sql)
     {
-        $result = mysqli_query($this->connexion, $sql);
+        $result = mysqli_query($this->conexion, $sql);
 
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
 
@@ -26,7 +27,7 @@ class Database
 
     public function querySingleRow($sql)
     {
-        $result = mysqli_query($this->connexion, $sql);
+        $result = mysqli_query($this->conexion, $sql);
 
         if ($result->num_rows == 0) {
             throw new EntityNotFoundException("Entidad no encontrada", $sql);
@@ -43,13 +44,22 @@ class Database
      */
     public function insertQuery($sql)
     {
-        mysqli_query($this->connexion, $sql);
-        return $this->connexion->insert_id;
+        mysqli_query($this->conexion, $sql);
+        if ($this->conexion->affected_rows <= 0) {
+            throw new InsertEntityException("No se pudo insertar entidad", $sql);
+        }
+        return $this->conexion->insert_id;
+    }
+
+    public function deleteQuery($sql)
+    {
+        mysqli_query($this->conexion, $sql);
+        return $this->conexion->insert_id;
     }
 
     public function __destruct()
     {
-        mysqli_close($this->connexion);
+        mysqli_close($this->conexion);
     }
 
     public static function getInstance(Config $config)
