@@ -56,10 +56,14 @@ class Usuario
      * @return array
      */
     public static function toArrayMap($usuario) {
-        return array(
-            "id" => $usuario->getId(),
-            "nombre" => $usuario->getNombre()
-        );
+        if(isset($usuario)) {
+            return array(
+                "id" => $usuario->getId(),
+                "nombre" => $usuario->getNombre()
+            );
+        } else {
+            return array();
+        }
     }
 
 

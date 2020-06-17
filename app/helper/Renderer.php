@@ -1,5 +1,6 @@
 <?php
 
+require_once "./model/Usuario.php";
 
 class Renderer
 {
@@ -10,15 +11,38 @@ class Renderer
     {
         Mustache_Autoloader::register();
         $this->mustache = new Mustache_Engine(array(
-            'partials_loader' => new Mustache_Loader_FilesystemLoader($partialsPathLoader,
-                array("usuario" => unserialize($_SESSION["usuario"]))
-            )
+            'partials_loader' => new Mustache_Loader_FilesystemLoader($partialsPathLoader)
         ));
     }
 
     public function render($contentFile, $data = array())
     {
         $contentAsString = file_get_contents($contentFile);
-        return $this->mustache->render($contentAsString, $data);
+        $view = $this->mustache->render($contentAsString, $this->getArrayData());
+
+
+        return $this->mustache->render("{{> doc }}", $this->getArrayDataWithView($view, $data));
+    }
+
+    private function getArrayData()
+    {
+        return array(
+            "session" => $_SESSION,
+            "cookie" => $_COOKIE,
+            "request" => $_REQUEST,
+        );
+    }
+
+    private function getArrayDataWithView($view, $data = array())
+    {
+        return
+            array_merge(
+                $this->getArrayData(),
+                array(
+                    "title" => "Infonete",
+                    "content" => $view,
+                ),
+                $data
+            );
     }
 }

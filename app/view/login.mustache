@@ -1,26 +1,11 @@
-<!doctype html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <title>Dashboard usuario</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
-</head>
-<body>
-{{> header}}
-
 <div class="d-flex justify-content-center py-3">
 
-    <div  style="width: 40rem;" {{#error}}class="card border-danger"{{/error}}{{^error}}class="card"{{/error}}>
+    <div style="width: 40rem;" {{#error}}class="card border-danger"{{/error}}{{^error}}class="card"{{/error}}>
         <div class="card-header text-center">
             Ingreso usuarios
         </div>
         <div class="card-body">
-            <form action="/login/usuario" method="post">
+            <form action="/login" method="post">
                 <fieldset>
                     <div class="form-group">
                         <label for="nombre">Usuario</label>
@@ -43,14 +28,4 @@
         {{/error}}
 
     </div>
-    </div>
-
-
-
-
-
-{{> footer}}
-<script type="application/javascript">
-</script>
-</body>
-</html>
+</div>

@@ -67,4 +67,10 @@ class ModuleInitializer
         return new DashboardController($this->renderer);
     }
 
+    public function createLogoutController() {
+        include_once ("controller/LogoutController.php");
+
+        return new LogoutController();
+    }
+
 }
