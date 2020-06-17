@@ -18,7 +18,7 @@ class Renderer
     public function render($contentFile, $data = array())
     {
         $contentAsString = file_get_contents($contentFile);
-        $view = $this->mustache->render($contentAsString, $this->getArrayData());
+        $view = $this->mustache->render($contentAsString, array_merge($this->getArrayData(), $data));
 
 
         return $this->mustache->render("{{> doc }}", $this->getArrayDataWithView($view, $data));
