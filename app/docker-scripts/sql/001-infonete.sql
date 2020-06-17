@@ -43,7 +43,8 @@ create table usuario
     foreign key (id_persona)
         references persona (id),
     foreign key (id_rol)
-        references rol (id)
+        references rol (id),
+    unique key unique_nombre (nombre)
 );
 
 create table suscripcion

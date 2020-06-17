@@ -1,7 +1,8 @@
 <?php
 
+require_once "controller/GenericController.php";
 
-class LoginController
+class LoginController extends GenericController
 {
     private $usuario;
     private $renderer;
@@ -18,19 +19,29 @@ class LoginController
         $this->renderer = $renderer;
     }
 
-    public function index()
+    public function getIndex()
     {
+        if ($this->existeSesion()) {
+            header("Location: /dashboard");
+            exit();
+        }
         echo $this->renderer->render("view/login.mustache");
+
     }
 
-    public function postUsuario()
+    public function postIndex()
     {
+        if ($this->existeSesion()) {
+            header("Location: /dashboard");
+            exit();
+        }
+
         $nombre = $_POST["nombre"];
         $password = md5($_POST["password"]);
         try {
             $usuario = $this->usuario->getUsuario($nombre, $password);
 
-            $_SESSION["usuario"] = serialize($usuario);
+            $_SESSION["usuario"] = Usuario::toArrayMap($usuario);
 
             echo $this->renderer->render("view/login-exitoso.mustache", array(
                 "usuario" => Usuario::toArrayMap($usuario)

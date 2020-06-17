@@ -2,15 +2,15 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            {{#usuario}}
+            {{#session.usuario}}
                 <li class="nav-item"><span class="navbar-brand mb-0 h1"><i class="fa fa-user" aria-hidden="true"></i>
-                    {{usuario.nombre}}</span></li>
+                    {{session.usuario.nombre}}</span></li>
                 <li class="nav-item"><a class="nav-link" href="/logout">Cerrar sesión</a></li>
-            {{/usuario}}
-            {{^usuario}}
+            {{/session.usuario}}
+            {{^session.usuario}}
                 <li class="nav-item"><a class="nav-link" href="/login">Iniciar sesión</a></li>
                 <li class="nav-item"><a class="nav-link" href="/registro">Registro</a></li>
-            {{/usuario}}
+            {{/session.usuario}}
         </ul>
     </div>
 </nav>

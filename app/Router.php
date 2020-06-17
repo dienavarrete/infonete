@@ -23,7 +23,7 @@ class Router
     private static function executeActionFrom($controller, $action)
     {
         $actionWithRequestMethod = $_SERVER['REQUEST_METHOD'] . ucfirst($action);
-        $validAction = method_exists($controller, $actionWithRequestMethod) ? $actionWithRequestMethod : "index";
+        $validAction = method_exists($controller, $actionWithRequestMethod) ? $actionWithRequestMethod : $_SERVER['REQUEST_METHOD'] . "Index";
         call_user_func(array($controller, $validAction));
     }
 
