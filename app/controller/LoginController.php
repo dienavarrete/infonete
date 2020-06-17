@@ -36,10 +36,10 @@ class LoginController extends GenericController
             exit();
         }
 
-        $nombre = $_POST["nombre"];
+        $nombre_usuario = $_POST["usuario"];
         $password = md5($_POST["password"]);
         try {
-            $usuario = $this->usuario->getUsuario($nombre, $password);
+            $usuario = $this->usuario->getUsuario($nombre_usuario, $password);
 
             $_SESSION["usuario"] = Usuario::toArrayMap($usuario);
 

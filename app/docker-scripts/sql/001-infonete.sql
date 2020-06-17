@@ -26,8 +26,8 @@ create table persona
 (
     id               int primary key auto_increment,
     apellido         varchar(50),
-    nombre           varchar(50),
-    fecha_nacimiento varchar(50),
+    nombres          varchar(50),
+    fecha_nacimiento date,
     id_localidad     int,
     foreign key (id_localidad)
         references localidad (id)
@@ -36,7 +36,7 @@ create table persona
 create table usuario
 (
     id         int primary key auto_increment,
-    nombre     varchar(50),
+    usuario    varchar(50),
     password   varchar(50),
     id_persona int,
     id_rol     int,
@@ -44,7 +44,7 @@ create table usuario
         references persona (id),
     foreign key (id_rol)
         references rol (id),
-    unique key unique_nombre (nombre)
+    unique key unique_nombre (usuario)
 );
 
 create table suscripcion

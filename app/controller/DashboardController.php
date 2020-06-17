@@ -18,7 +18,8 @@ class DashboardController extends GenericController
     public function getIndex()
     {
         if ($this->existeSesion()) {
-            echo $this->renderer->render("view/dashboard.mustache", array("title" => "Dashboard"));
+            echo $this->renderer->render("view/dashboard.mustache",
+                array("title" => "Dashboard"));
         } else {
             header("Location: /login");
             exit();
