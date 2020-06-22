@@ -85,6 +85,7 @@ create table publicacion
 (
     id                  int primary key auto_increment,
     contenido_gratuito  boolean,
+    numero              int,
     estado_registro     boolean,
     id_genero           int,
     id_tipo_publicacion int,
@@ -114,6 +115,7 @@ create table seccion
 create table noticia
 (
     id              int primary key auto_increment,
+    contenido       varchar(5000),
     estado_registro boolean,
     id_seccion      int,
     id_contenidista int,
@@ -129,15 +131,18 @@ create table noticia
         references estado (id)
 );
 
-create table publicacion_usuario
+create table suscripcion_publicacion_usuario
 (
     id             int primary key auto_increment,
     id_usuario     int,
     id_publicacion int,
+    id_pago        int,
     foreign key (id_usuario)
         references usuario (id),
     foreign key (id_publicacion)
-        references publicacion (id)
+        references publicacion (id),
+    foreign key (id_pago)
+        references pago (id)
 );
 
 

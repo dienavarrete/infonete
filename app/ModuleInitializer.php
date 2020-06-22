@@ -67,8 +67,9 @@ class ModuleInitializer
     /**
      * @return LogoutController
      */
-    public function createLogoutController() {
-        include_once ("controller/LogoutController.php");
+    public function createLogoutController()
+    {
+        include_once("controller/LogoutController.php");
 
         return new LogoutController();
     }
@@ -76,10 +77,24 @@ class ModuleInitializer
     /**
      * @return HttpErrorController
      */
-    public function createError404Controller() {
+    public function createError404Controller()
+    {
         include_once("controller/HttpErrorController.php");
 
         return new HttpErrorController($this->renderer);
+    }
+
+    /**
+     * @return NoticiaController
+     */
+    public function createNoticiaController()
+    {
+        include_once("controller/NoticiaController.php");
+        include_once("dao/NoticiaDAO.php");
+
+        $noticiaDao = new NoticiaDAO($this->database);
+
+        return new NoticiaController($this->renderer, $noticiaDao);
     }
 
 }

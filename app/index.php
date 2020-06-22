@@ -6,46 +6,54 @@ require_once("ModuleInitializer.php");
 session_start();
 
 $router = new AltoRouter();
+$moduleInitializer = new ModuleInitializer();
 
-$router->map('GET', '/', function () {
-    $moduleInitializer = new ModuleInitializer();
+$router->map('GET', '/', function () use ($moduleInitializer) {
     $controller = $moduleInitializer->createInicioController();
     $controller->getIndex();
 });
 
-$router->map('GET', '/registro', function () {
-    $moduleInitializer = new ModuleInitializer();
+$router->map('GET', '/registro', function () use ($moduleInitializer) {
     $controller = $moduleInitializer->createRegistroController();
     $controller->getIndex();
 });
 
-$router->map('POST', '/registro', function () {
-    $moduleInitializer = new ModuleInitializer();
+$router->map('POST', '/registro', function () use ($moduleInitializer) {
     $controller = $moduleInitializer->createRegistroController();
     $controller->postIndex();
 });
 
+$router->map('POST', '/seccion/[i:id_seccion]/noticia', function ($id_seccion) use ($moduleInitializer) {
+    $controller = $moduleInitializer->createNoticiaController();
+    $controller->crearNoticia($id_seccion);
+});
 
-$router->map('GET', '/dashboard', function () {
-    $moduleInitializer = new ModuleInitializer();
+$router->map('GET', '/seccion/[i:id_seccion]/noticia', function ($id_seccion) use ($moduleInitializer) {
+    $controller = $moduleInitializer->createNoticiaController();
+    $controller->formularioNoticia($id_seccion);
+});
+
+$router->map('GET', '/noticia/[i:id]', function ($id) use ($moduleInitializer) {
+    echo "ver noticia $id";
+});
+
+
+$router->map('GET', '/dashboard', function () use ($moduleInitializer) {
     $controller = $moduleInitializer->createDashboardController();
     $controller->getIndex();
 });
 
-$router->map('GET', '/login', function () {
-    $moduleInitializer = new ModuleInitializer();
+$router->map('GET', '/login', function () use ($moduleInitializer) {
     $controller = $moduleInitializer->createLoginController();
     $controller->getIndex();
 });
 
-$router->map('POST', '/login', function () {
-    $moduleInitializer = new ModuleInitializer();
+$router->map('POST', '/login', function () use ($moduleInitializer) {
     $controller = $moduleInitializer->createLoginController();
     $controller->postIndex();
 });
 
-$router->map('GET', '/logout', function () {
-    $moduleInitializer = new ModuleInitializer();
+$router->map('GET', '/logout', function () use ($moduleInitializer) {
     $controller = $moduleInitializer->createLogoutController();
     $controller->getIndex();
 });

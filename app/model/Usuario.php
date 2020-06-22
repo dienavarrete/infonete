@@ -8,6 +8,7 @@ class Usuario
     private $apellido;
     private $nombre;
     private $fecha_nacimiento;
+    private $rol;
 
     /**
      * Usuario constructor.
@@ -16,14 +17,16 @@ class Usuario
      * @param str $apellido
      * @param str $nombre
      * @param Date $fecha_nacimiento
+     * @param RolUsuario $rol
      */
-    public function __construct($id, $usuario, $apellido, $nombre, $fecha_nacimiento)
+    public function __construct($id, $usuario, $apellido, $nombre, $fecha_nacimiento, $rol)
     {
         $this->id = $id;
         $this->usuario = $usuario;
         $this->apellido = $apellido;
         $this->nombre = $nombre;
         $this->fecha_nacimiento = $fecha_nacimiento;
+        $this->rol = $rol;
     }
 
     /**
@@ -121,10 +124,27 @@ class Usuario
                 "apellido" => $usuario->getApellido(),
                 "nombre" => $usuario->getNombre(),
                 "fecha_nacimiento" => $usuario->getFechaNacimiento(),
+                "rol_usuario" => RolUsuario::toArrayMap($usuario->getRol())
             );
         } else {
             return array();
         }
+    }
+
+    /**
+     * @return RolUsuario
+     */
+    public function getRol()
+    {
+        return $this->rol;
+    }
+
+    /**
+     * @param RolUsuario $rol
+     */
+    public function setRol($rol)
+    {
+        $this->rol = $rol;
     }
 
 
