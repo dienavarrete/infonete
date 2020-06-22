@@ -18,11 +18,6 @@ class ModuleInitializer
         $this->database = Database::getInstance($this->config);
     }
 
-    public function createDefaultController()
-    {
-        return $this->createInicioController();
-    }
-
     /**
      * @return InicioController
      */
@@ -69,10 +64,22 @@ class ModuleInitializer
         return new DashboardController($this->renderer);
     }
 
+    /**
+     * @return LogoutController
+     */
     public function createLogoutController() {
         include_once ("controller/LogoutController.php");
 
         return new LogoutController();
+    }
+
+    /**
+     * @return HttpErrorController
+     */
+    public function createError404Controller() {
+        include_once("controller/HttpErrorController.php");
+
+        return new HttpErrorController($this->renderer);
     }
 
 }
