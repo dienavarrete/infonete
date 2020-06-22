@@ -1,4 +1,5 @@
 <?php
+
 require_once("helper/Renderer.php");
 include_once("helper/Database.php");
 include_once("helper/Config.php");
@@ -95,6 +96,19 @@ class ModuleInitializer
         $noticiaDao = new NoticiaDAO($this->database);
 
         return new NoticiaController($this->renderer, $noticiaDao);
+    }
+
+    /**
+     * @return PublicacionController
+     */
+    public function createPublicacionController()
+    {
+        include_once("controller/PublicacionController.php");
+        include_once("dao/PublicacionDAO.php");
+
+        $noticiaDao = new PublicacionDAO($this->database);
+
+        return new PublicacionController($this->renderer, $noticiaDao);
     }
 
 }

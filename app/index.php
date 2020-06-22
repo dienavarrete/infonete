@@ -33,6 +33,11 @@ $router->map('GET', '/seccion/[i:id_seccion]/noticia', function ($id_seccion) us
     $controller->formularioNoticia($id_seccion);
 });
 
+$router->map('GET', '/publicacion/[i:id]', function ($id) use ($moduleInitializer) {
+    $controller = $moduleInitializer->createPublicacionController();
+    $controller->getPublicacion($id);
+});
+
 $router->map('GET', '/noticia/[i:id]', function ($id) use ($moduleInitializer) {
     echo "ver noticia $id";
 });
