@@ -111,27 +111,6 @@ class Usuario
 
 
     /**
-     * @param Usuario $usuario
-     *
-     * @return array
-     */
-    public static function toArrayMap($usuario)
-    {
-        if (isset($usuario)) {
-            return array(
-                "id" => $usuario->getId(),
-                "usuario" => $usuario->getUsuario(),
-                "apellido" => $usuario->getApellido(),
-                "nombre" => $usuario->getNombre(),
-                "fecha_nacimiento" => $usuario->getFechaNacimiento(),
-                "rol_usuario" => RolUsuario::toArrayMap($usuario->getRol())
-            );
-        } else {
-            return array();
-        }
-    }
-
-    /**
      * @return RolUsuario
      */
     public function getRol()
@@ -145,6 +124,37 @@ class Usuario
     public function setRol($rol)
     {
         $this->rol = $rol;
+    }
+
+    public function esContenidista() {
+        return $this->getRol()->getCodigo() == '20';
+    }
+
+    public function esAdmin() {
+        return $this->getRol()->getCodigo() == '10';
+    }
+
+    /**
+     * @param Usuario $usuario
+     *
+     * @return array
+     */
+    public static function toArrayMap($usuario)
+    {
+        if (isset($usuario)) {
+            return array(
+                "id" => $usuario->getId(),
+                "usuario" => $usuario->getUsuario(),
+                "apellido" => $usuario->getApellido(),
+                "nombre" => $usuario->getNombre(),
+                "fecha_nacimiento" => $usuario->getFechaNacimiento(),
+                "rol_usuario" => RolUsuario::toArrayMap($usuario->getRol()),
+                "es_admin" => $usuario->esAdmin(),
+                "puede_generar_contenido" => $usuario->esAdmin() || $usuario->esContenidista()
+            );
+        } else {
+            return array();
+        }
     }
 
 

@@ -105,10 +105,16 @@ class ModuleInitializer
     {
         include_once("controller/PublicacionController.php");
         include_once("dao/PublicacionDAO.php");
+        include_once("dao/TipoPublicacionDAO.php");
+        include_once("dao/SeccionDAO.php");
+        include_once("dao/NoticiaDAO.php");
 
-        $noticiaDao = new PublicacionDAO($this->database);
+        $publicacionDao = new PublicacionDAO($this->database);
+        $tipoPublicacionDao = new TipoPublicacionDAO($this->database);
+        $seccionDao = new SeccionDAO($this->database);
+        $noticiaDao = new NoticiaDAO($this->database);
 
-        return new PublicacionController($this->renderer, $noticiaDao);
+        return new PublicacionController($this->renderer, $publicacionDao, $tipoPublicacionDao, $seccionDao, $noticiaDao);
     }
 
 }

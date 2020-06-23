@@ -1,0 +1,1 @@
+insert into estado (codigo, descripcion) values ('10', 'Borrador'), ('20', 'Listo para aprobar'), ('30', 'Aprobado');

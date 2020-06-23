@@ -1,8 +1,7 @@
 <?php
 
-require_once "controller/GenericController.php";
 
-class LoginController extends GenericController
+class LoginController
 {
     private $usuario;
     private $renderer;
@@ -21,21 +20,12 @@ class LoginController extends GenericController
 
     public function getIndex()
     {
-        if ($this->existeSesion()) {
-            header("Location: /dashboard");
-            exit();
-        }
         echo $this->renderer->render("view/login.mustache");
 
     }
 
     public function postIndex()
     {
-        if ($this->existeSesion()) {
-            header("Location: /dashboard");
-            exit();
-        }
-
         $nombre_usuario = $_POST["usuario"];
         $password = md5($_POST["password"]);
         try {

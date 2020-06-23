@@ -74,11 +74,11 @@ create table tipo_publicacion
     descripcion varchar(50)
 );
 
-create table genero_publicacion
+create table genero_seccion
 (
     id          int primary key auto_increment,
-    codigo      varchar(50),
-    descripcion varchar(50)
+    codigo      varchar(50) not null,
+    descripcion varchar(50) not null
 );
 
 create table publicacion
@@ -87,11 +87,9 @@ create table publicacion
     contenido_gratuito  boolean,
     numero              int,
     estado_registro     boolean,
-    id_genero           int,
+    fecha               date,
     id_tipo_publicacion int,
     id_estado           int,
-    foreign key (id_genero)
-        references genero_publicacion (id),
     foreign key (id_tipo_publicacion)
         references tipo_publicacion (id),
     foreign key (id_estado)
@@ -102,19 +100,21 @@ create table seccion
 (
     id              int primary key auto_increment,
     estado_registro boolean,
+    id_genero       int,
     id_publicacion  int,
     id_estado       int,
+    foreign key (id_genero)
+        references genero_seccion (id),
     foreign key (id_publicacion)
         references publicacion (id),
     foreign key (id_estado)
-        references estado (id),
-    foreign key (id_publicacion)
-        references publicacion (id)
+        references estado (id)
 );
 
 create table noticia
 (
     id              int primary key auto_increment,
+    titulo          varchar(50),
     contenido       varchar(5000),
     estado_registro boolean,
     id_seccion      int,

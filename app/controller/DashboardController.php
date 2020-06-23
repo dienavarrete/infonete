@@ -1,8 +1,7 @@
 <?php
 
-require_once "controller/GenericController.php";
 
-class DashboardController extends GenericController
+class DashboardController
 {
     private $renderer;
 
@@ -17,12 +16,7 @@ class DashboardController extends GenericController
 
     public function getIndex()
     {
-        if ($this->existeSesion()) {
-            echo $this->renderer->render("view/dashboard.mustache",
-                array("title" => "Dashboard"));
-        } else {
-            header("Location: /login");
-            exit();
-        }
+        echo $this->renderer->render("view/dashboard.mustache",
+            array("title" => "Dashboard"));
     }
 }

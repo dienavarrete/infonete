@@ -1,0 +1,1 @@
+insert into genero_seccion (codigo, descripcion) values ('10', 'Deportes'), ('20', 'Política');

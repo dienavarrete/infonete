@@ -5,22 +5,73 @@ class PublicacionController
 {
     private $renderer;
     private $publicacionDAO;
+    private $tipoPublicacionDAO;
+    private $seccionDAO;
+    private $noticiaDAO;
 
     /**
      * PublicacionController constructor.
      * @param Renderer $renderer
      * @param PublicacionDAO $publicacionDAO
+     * @param TipoPublicacionDAO $tipoPublicacionDAO
+     * @param SeccionDAO $seccionDAO
+     * @param NoticiaDAO $noticiaDAO
      */
-    public function __construct($renderer, $publicacionDAO)
+    public function __construct($renderer, $publicacionDAO, $tipoPublicacionDAO, $seccionDAO, $noticiaDAO)
     {
         $this->renderer = $renderer;
         $this->publicacionDAO = $publicacionDAO;
+        $this->tipoPublicacionDAO = $tipoPublicacionDAO;
+        $this->seccionDAO = $seccionDAO;
+        $this->noticiaDAO = $noticiaDAO;
+    }
+
+    public function crearPublicacionVista()
+    {
+        $tipos_publicaciones = $this->tipoPublicacionDAO->getTiposPublicaciones();
+
+        echo $this->renderer->render("view/crear-publicacion.mustache",
+            array(
+                "title" => "Crear nueva publicación",
+                "data" => array(
+                    "tipos_publicaciones" => TipoPublicacion::toListArrayMap($tipos_publicaciones)
+                )
+            )
+        );
+    }
+
+    public function crearPublicacion()
+    {
+        try {
+            $id_tipo_publicacion = $_POST["tipo_publicacion"];
+            $numero = $_POST["numero"];
+            $contenido_gratuito = $_POST["contenido_gratuito"];
+
+            $tipo_publicacion = $this->tipoPublicacionDAO->getTipoPublicacion($id_tipo_publicacion);
+
+            return $this->publicacionDAO->insertarPublicacion($contenido_gratuito, $numero, $tipo_publicacion->getId());
+        } catch (EntityNotFoundException $ex) {
+            //TODO: BadRequestException
+        }
     }
 
     public function getPublicacion($id)
     {
         //echo "ver publicaion $id";
+        $publicacion = $this->publicacionDAO->getPublicacion($id);
+        $secciones = $this->seccionDAO->getSecciones($publicacion->getId());
+
+        foreach ($secciones as $seccion) {
+            $seccion->setNoticias($this->noticiaDAO->getNoticias($seccion->getId()));
+        }
+
+        $publicacion->setSecciones($secciones);
+
         echo $this->renderer->render("view/mostrar-publicacion.mustache", array(
+            "title" => "Publicación",
+            "publicacion" => Publicacion::toArrayMap($publicacion)
+        ));
+        /*echo $this->renderer->render("view/mostrar-publicacion.mustache", array(
             "title" => "Publicación",
             "publicacion" => [
                 "id" => $id,
@@ -61,7 +112,7 @@ class PublicacionController
                     ],
                 ]
             ]
-        ));
+        ));*/
     }
 
 }

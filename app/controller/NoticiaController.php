@@ -19,17 +19,22 @@ class NoticiaController
 
     public function crearNoticia($id_seccion)
     {
-        var_dump($_POST);
+
+        $titulo = $_POST["titulo"];
+        $contenido = $_POST["contenido"];
+        $id_usuario = $_SESSION["usuario"]["id"];
+
+        return $this->noticiaDAO->insertarNoticia($titulo, $contenido, $id_seccion, $id_usuario);
     }
 
     public function formularioNoticia($id_seccion)
     {
-
-        echo $this->renderer->render("view/crear-noticia.mustache", array(
+        echo $id_seccion;
+        /*echo $this->renderer->render("view/crear-noticia.mustache", array(
             "title" => "Crear nueva noticia",
             "data" => array(
                 "id_seccion" => $id_seccion
             )
-        ));
+        ));*/
     }
 }
