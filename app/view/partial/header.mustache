@@ -4,9 +4,9 @@
             {{#session.usuario}}
                 <li class="nav-item"><span class="navbar-brand mb-0 h1"><i class="fa fa-user" aria-hidden="true"></i>
                     {{session.usuario.usuario}}</span></li>
-                {{#session.usuario.es_admin}}
+                {{#session.usuario.puede_generar_contenido}}
                     <li><a class="nav-link" href="/crear-publicacion">Crear publicación</a></li>
-                {{/session.usuario.es_admin}}
+                {{/session.usuario.puede_generar_contenido}}
                 <li class="nav-item"><a class="nav-link" href="/logout">Cerrar sesión</a></li>
             {{/session.usuario}}
             {{^session.usuario}}
