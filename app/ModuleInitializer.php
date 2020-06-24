@@ -1,4 +1,5 @@
 <?php
+
 require_once("helper/Renderer.php");
 include_once("helper/Database.php");
 include_once("helper/Config.php");
@@ -67,8 +68,9 @@ class ModuleInitializer
     /**
      * @return LogoutController
      */
-    public function createLogoutController() {
-        include_once ("controller/LogoutController.php");
+    public function createLogoutController()
+    {
+        include_once("controller/LogoutController.php");
 
         return new LogoutController();
     }
@@ -76,10 +78,58 @@ class ModuleInitializer
     /**
      * @return HttpErrorController
      */
-    public function createError404Controller() {
+    public function createError404Controller()
+    {
         include_once("controller/HttpErrorController.php");
 
         return new HttpErrorController($this->renderer);
+    }
+
+    /**
+     * @return NoticiaController
+     */
+    public function createNoticiaController()
+    {
+        include_once("controller/NoticiaController.php");
+        include_once("dao/NoticiaDAO.php");
+
+        $noticiaDao = new NoticiaDAO($this->database);
+
+        return new NoticiaController($this->renderer, $noticiaDao);
+    }
+
+    /**
+     * @return SeccionController
+     */
+    public function createSeccionController()
+    {
+        include_once("controller/SeccionController.php");
+        include_once("dao/SeccionDAO.php");
+
+        $noticiaDao = new SeccionDAO($this->database);
+
+        return new SeccionController($this->renderer, $noticiaDao);
+    }
+
+    /**
+     * @return PublicacionController
+     */
+    public function createPublicacionController()
+    {
+        include_once("controller/PublicacionController.php");
+        include_once("dao/PublicacionDAO.php");
+        include_once("dao/TipoPublicacionDAO.php");
+        include_once("dao/SeccionDAO.php");
+        include_once("dao/NoticiaDAO.php");
+        include_once("dao/GeneroSeccionDAO.php");
+
+        $publicacionDao = new PublicacionDAO($this->database);
+        $tipoPublicacionDao = new TipoPublicacionDAO($this->database);
+        $seccionDao = new SeccionDAO($this->database);
+        $noticiaDao = new NoticiaDAO($this->database);
+        $generoDAO = new GeneroSeccionDAO($this->database);
+
+        return new PublicacionController($this->renderer, $publicacionDao, $tipoPublicacionDao, $seccionDao, $noticiaDao, $generoDAO);
     }
 
 }

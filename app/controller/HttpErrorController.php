@@ -14,7 +14,7 @@ class HttpErrorController
         $this->renderer = $renderer;
     }
 
-    public function get404()
+    public function get404View()
     {
         echo $this->renderer->render("view/errors/404.mustache",
             array("title" => "Página no encontrada"));

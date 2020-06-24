@@ -8,6 +8,7 @@ class Usuario
     private $apellido;
     private $nombre;
     private $fecha_nacimiento;
+    private $rol;
 
     /**
      * Usuario constructor.
@@ -16,14 +17,16 @@ class Usuario
      * @param str $apellido
      * @param str $nombre
      * @param Date $fecha_nacimiento
+     * @param RolUsuario $rol
      */
-    public function __construct($id, $usuario, $apellido, $nombre, $fecha_nacimiento)
+    public function __construct($id, $usuario, $apellido, $nombre, $fecha_nacimiento, $rol)
     {
         $this->id = $id;
         $this->usuario = $usuario;
         $this->apellido = $apellido;
         $this->nombre = $nombre;
         $this->fecha_nacimiento = $fecha_nacimiento;
+        $this->rol = $rol;
     }
 
     /**
@@ -108,6 +111,30 @@ class Usuario
 
 
     /**
+     * @return RolUsuario
+     */
+    public function getRol()
+    {
+        return $this->rol;
+    }
+
+    /**
+     * @param RolUsuario $rol
+     */
+    public function setRol($rol)
+    {
+        $this->rol = $rol;
+    }
+
+    public function esContenidista() {
+        return $this->getRol()->getCodigo() == '20';
+    }
+
+    public function esAdmin() {
+        return $this->getRol()->getCodigo() == '10';
+    }
+
+    /**
      * @param Usuario $usuario
      *
      * @return array
@@ -121,6 +148,9 @@ class Usuario
                 "apellido" => $usuario->getApellido(),
                 "nombre" => $usuario->getNombre(),
                 "fecha_nacimiento" => $usuario->getFechaNacimiento(),
+                "rol_usuario" => RolUsuario::toArrayMap($usuario->getRol()),
+                "es_admin" => $usuario->esAdmin(),
+                "puede_generar_contenido" => $usuario->esAdmin() || $usuario->esContenidista()
             );
         } else {
             return array();

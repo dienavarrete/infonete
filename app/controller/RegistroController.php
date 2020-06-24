@@ -1,8 +1,6 @@
 <?php
 
-require_once "controller/GenericController.php";
-
-class RegistroController extends GenericController
+class RegistroController
 {
     private $usuarioDao;
     private $personaDao;
@@ -21,22 +19,13 @@ class RegistroController extends GenericController
         $this->renderer = $renderer;
     }
 
-    public function getIndex()
+    public function getRegistroFormView()
     {
-        if ($this->existeSesion()) {
-            header("Location: /dashboard");
-            exit();
-        }
         echo $this->renderer->render("view/registro.mustache");
-
     }
 
     public function postIndex()
     {
-        if ($this->existeSesion()) {
-            header("Location: /dashboard");
-            exit();
-        }
 
         $usuario = $_POST["usuario"];
         $password = md5($_POST["password"]);
