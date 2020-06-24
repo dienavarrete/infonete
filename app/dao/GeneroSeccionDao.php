@@ -34,5 +34,24 @@ class GeneroSeccionDao
         return $result;
     }
 
+    public static function toArrayMap()
+    {
+        
+        if (isset($publicacion)) {
+            return array(
+                "id" => $publicacion->getId(),
+                "contenido_gratuito" => $publicacion->getContenidoGratuito(),
+                "numero" => $publicacion->getNumero(),
+                "estado_registro" => $publicacion->getEstadoRegistro(),
+                "fecha" => $publicacion->getFecha(),
+                "id_tipo_publicacion" => $publicacion->getIdTipoPublicacion(),
+                "id_estado_publicacion" => $publicacion->getIdEstadoPublicacion(),
+                "secciones" => Seccion::toListArrayMap($publicacion->getSecciones())
+            );
+        } else {
+            return array();
+        }
+    }
+
 
 }

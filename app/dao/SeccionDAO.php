@@ -42,4 +42,13 @@ class SeccionDAO
 
         return $result;
     }
+
+    public function insertarSeccion($id_genero, $id_publicacion)
+    {
+        // var_dump($id_genero, $id_publicacion);
+        // die;
+        return $this
+            ->conexion
+            ->insertQuery("insert into seccion (estado_registro, id_genero, id_publicacion, id_estado) value (1, $id_genero, $id_publicacion, (select id from estado where codigo = '10'))");
+    }
 }

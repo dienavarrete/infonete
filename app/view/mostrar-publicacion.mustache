@@ -31,6 +31,15 @@
                         </div>
                     </div>
                 {{/publicacion.secciones}}
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <a class="font-weight-bold" data-toggle="modal"
+                                data-target="#modal-form-seccion" data-id-publicacion="{{id}}"> + Nueva seccion
+                            </a>
+                        </div>
+                    </div>
+                </div>    
             </div>
         </div>
         <div class="col-sm-1">
@@ -38,6 +47,38 @@
     </div>
 </div>
 {{#session.usuario.puede_generar_contenido}}
+    <div class="modal fade" id="modal-form-seccion" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Formulario creación seccion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" id="form-nueva-seccion">
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="genero">Genero</label>
+                                <select class="form-control" name="genero" id="genero">
+                                    {{#generos}}
+                                        <option value="{{id}}">{{descripcion}}</option>
+                                    {{/generos}}
+                                </select>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" id="crear-seccion" class="btn btn-primary">Crear seccion</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{! modal de noticias }}
     <div class="modal fade" id="modal-form-noticia" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
@@ -91,6 +132,36 @@
                     $.ajax({
                         type: 'POST',
                         url: `/secciones/${idSeccion}/noticias`,
+                        data: data,
+                        statusCode: {
+                            200: function(data) {
+                                location.reload();
+                            },
+                            400: function() {
+                                alert('Mandaste fruta');
+                            },
+                            401: function(data) {
+                                alert('no tenés permisos suficientes');
+                            },
+                        },
+                    });
+                });
+
+            });
+
+            $('#modal-form-seccion').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var idPublicacion = button.data('id-publicacion');
+
+                $('#crear-seccion').click(function() {
+
+                    var data = {
+                        'id_genero': $('select[name=genero]').val(),
+                    };
+
+                    $.ajax({
+                        type: 'POST',
+                        url: `/publicaciones/${idPublicacion}/secciones`,
                         data: data,
                         statusCode: {
                             200: function(data) {

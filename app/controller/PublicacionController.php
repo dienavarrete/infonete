@@ -1,6 +1,7 @@
 <?php
 
 
+
 class PublicacionController
 {
     private $renderer;
@@ -8,6 +9,7 @@ class PublicacionController
     private $tipoPublicacionDAO;
     private $seccionDAO;
     private $noticiaDAO;
+    private $generoDAO;
 
     /**
      * PublicacionController constructor.
@@ -16,20 +18,21 @@ class PublicacionController
      * @param TipoPublicacionDAO $tipoPublicacionDAO
      * @param SeccionDAO $seccionDAO
      * @param NoticiaDAO $noticiaDAO
+     * @param GeneroSeccionDAO $generoDAO
      */
-    public function __construct($renderer, $publicacionDAO, $tipoPublicacionDAO, $seccionDAO, $noticiaDAO)
+    public function __construct($renderer, $publicacionDAO, $tipoPublicacionDAO, $seccionDAO, $noticiaDAO, $generoDAO)
     {
         $this->renderer = $renderer;
         $this->publicacionDAO = $publicacionDAO;
         $this->tipoPublicacionDAO = $tipoPublicacionDAO;
         $this->seccionDAO = $seccionDAO;
         $this->noticiaDAO = $noticiaDAO;
+        $this->generoDAO = $generoDAO;
     }
 
     public function crearPublicacionVista()
     {
         $tipos_publicaciones = $this->tipoPublicacionDAO->getTiposPublicaciones();
-
         echo $this->renderer->render("view/crear-publicacion.mustache",
             array(
                 "title" => "Crear nueva publicación",
@@ -61,15 +64,23 @@ class PublicacionController
         $publicacion = $this->publicacionDAO->getPublicacion($id);
         $secciones = $this->seccionDAO->getSecciones($publicacion->getId());
 
-        foreach ($secciones as $seccion) {
-            $seccion->setNoticias($this->noticiaDAO->getNoticias($seccion->getId()));
+        if (!is_null($secciones)) {
+            foreach ($secciones as $seccion) {
+                $seccion->setNoticias($this->noticiaDAO->getNoticias($seccion->getId()));
+            }
+
+            $publicacion->setSecciones($secciones);
         }
+        
 
-        $publicacion->setSecciones($secciones);
-
+        // var_dump($this->generoDAO->getGeneros());
+        // die;
         echo $this->renderer->render("view/mostrar-publicacion.mustache", array(
             "title" => "Publicación",
-            "publicacion" => Publicacion::toArrayMap($publicacion)
+            "id" => $id,
+            "publicacion" => Publicacion::toArrayMap($publicacion),
+            "generos" => GeneroSeccion::toListArrayMap($this->generoDAO->getGeneros())
+            
         ));
         /*echo $this->renderer->render("view/mostrar-publicacion.mustache", array(
             "title" => "Publicación",

@@ -52,6 +52,7 @@ $router->map('POST', '/secciones/[i:id_seccion]/noticias', function ($id_seccion
 });*/
 
 $router->map('GET', '/publicaciones/[i:id]', function ($id) use ($moduleInitializer) {
+    
     try {
         $controller = $moduleInitializer->createPublicacionController();
         $controller->getPublicacion($id);
@@ -63,6 +64,7 @@ $router->map('GET', '/publicaciones/[i:id]', function ($id) use ($moduleInitiali
 });
 
 $router->map('GET', '/crear-publicacion', function () use ($moduleInitializer) {
+    
     try {
         SessionHelper::rolOneOf(['10', '20']);
         $controller = $moduleInitializer->createPublicacionController();
@@ -81,6 +83,16 @@ $router->map('POST', '/publicaciones', function () use ($moduleInitializer) {
         echo $controller->crearPublicacion();
     } catch (EntityNotFoundException $ex) {
         header($_SERVER["SERVER_PROTOCOL"] . ' 400 Bad Request');
+    } catch (UnauthorizedException $ex) {
+        header($_SERVER["SERVER_PROTOCOL"] . ' 401 Unauthorized');
+    }
+});
+
+$router->map('POST', '/publicaciones/[i:publicacion]/secciones', function ($publicacion) use ($moduleInitializer) {
+    try {
+        SessionHelper::rolOneOf(['10', '20']);
+        $controller = $moduleInitializer->createSeccionController();
+        $controller->crearSeccion($publicacion);
     } catch (UnauthorizedException $ex) {
         header($_SERVER["SERVER_PROTOCOL"] . ' 401 Unauthorized');
     }

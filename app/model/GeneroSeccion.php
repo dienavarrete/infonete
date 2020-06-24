@@ -88,4 +88,14 @@ class GeneroSeccion
         }
     }
 
+    public static function toListArrayMap($array)
+    {
+        $r = array();
+
+        foreach ($array as $seccion) {
+            array_push($r, self::toArrayMap($seccion));
+        }
+
+        return $r;
+    }
 }
