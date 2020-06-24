@@ -1,12 +1,11 @@
 {{> header}}
-<div class="container">
+<div class="container my-3">
     <div class="row">
-        <div class="col-sm-1">
-        </div>
+        <div class="col-sm-1"></div>
         <div class="col-sm-10">
             <div id="accordion">
                 {{#publicacion.secciones}}
-                    <div class="card">
+                    <div class="card my-3">
                         <div class="card-header" id="headingOne">
                             <h5 class="mb-0">{{genero.descripcion}}</h5>
                         </div>
@@ -15,7 +14,7 @@
                              data-parent="#accordion">
                             <div class="card-body">
                                 {{#noticias}}
-                                    <div class="card">
+                                    <div class="card my-3">
                                         <div class="card-body">
                                             <h5 class="card-title">{{titulo}}</h5>
                                             <p class="card-text">{{contenido}}</p>
@@ -35,11 +34,11 @@
                     <div class="card">
                         <div class="card-header" id="headingOne">
                             <a class="font-weight-bold" data-toggle="modal"
-                                data-target="#modal-form-seccion" data-id-publicacion="{{id}}"> + Nueva seccion
+                               data-target="#modal-form-seccion" data-id-publicacion="{{id}}" href="#"> + Nueva seccion
                             </a>
                         </div>
                     </div>
-                </div>    
+                </div>
             </div>
         </div>
         <div class="col-sm-1">
@@ -48,7 +47,7 @@
 </div>
 {{#session.usuario.puede_generar_contenido}}
     <div class="modal fade" id="modal-form-seccion" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Formulario creación seccion</h5>
