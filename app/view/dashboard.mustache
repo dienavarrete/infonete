@@ -2,8 +2,19 @@
 <div class="container-fluid">
     <h1>Bienvenido, {{session.usuario.apellido}} {{session.usuario.nombre}}</h1>
 </div>
-{{#noticias}}
-    titulo: {{titulo}}<br/>
-{{/noticias}}
+<div class="row">
+    {{#noticias}}
+        <div class="col-lg-3">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body" style="height=300px">
+                    <h5 class="card-title">{{titulo}}</h5>
+                    <p class="card-text">{{contenido}}</p>
+                    {{! <a href="#" class="btn btn-primary">Go somewhere</a>}}
+                </div> 
+            </div>
+        </div>
+    {{/noticias}}
+</div>
 {{> footer }}
 
