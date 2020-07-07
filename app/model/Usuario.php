@@ -134,6 +134,9 @@ class Usuario
         return $this->getRol()->getCodigo() == '10';
     }
 
+    public function estaSuscripto() {
+        return true;
+    }
     /**
      * @param Usuario $usuario
      *
@@ -149,13 +152,14 @@ class Usuario
                 "nombre" => $usuario->getNombre(),
                 "fecha_nacimiento" => $usuario->getFechaNacimiento(),
                 "rol_usuario" => RolUsuario::toArrayMap($usuario->getRol()),
+                "esta_suscripto" => $usuario->estaSuscripto(),
                 "es_admin" => $usuario->esAdmin(),
+                "es_contenidista" => $usuario->esContenidista(),
                 "puede_generar_contenido" => $usuario->esAdmin() || $usuario->esContenidista()
             );
         } else {
             return array();
         }
     }
-
-
+ 
 }

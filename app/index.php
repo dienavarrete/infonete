@@ -50,6 +50,17 @@ $router->map('POST', '/secciones/[i:id_seccion]/noticias', function ($id_seccion
     $controller = $moduleInitializer->createNoticiaController();
     $controller->formularioNoticia($id_seccion);
 });*/
+$router->map('GET', '/publicaciones', function () use ($moduleInitializer) {
+    
+    try {
+        $controller = $moduleInitializer->createPublicacionController();
+        $controller->getPublicaciones();
+    } catch (EntityNotFoundException $ex) {
+        header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
+        $controller = $moduleInitializer->createError404Controller();
+        $controller->get404View();
+    }
+});
 
 $router->map('GET', '/publicaciones/[i:id]', function ($id) use ($moduleInitializer) {
     
@@ -93,6 +104,16 @@ $router->map('POST', '/publicaciones/[i:publicacion]/secciones', function ($publ
         SessionHelper::rolOneOf(['10', '20']);
         $controller = $moduleInitializer->createSeccionController();
         $controller->crearSeccion($publicacion);
+    } catch (UnauthorizedException $ex) {
+        header($_SERVER["SERVER_PROTOCOL"] . ' 401 Unauthorized');
+    }
+});
+
+$router->map('POST', '/publicaciones/[i:publicacion]/estado', function ($publicacion) use ($moduleInitializer) {
+    try {
+        SessionHelper::rolOneOf(['10', '20']);
+        $controller = $moduleInitializer->createPublicacionController();
+        echo $controller->updateStatusPublicacion($publicacion);
     } catch (UnauthorizedException $ex) {
         header($_SERVER["SERVER_PROTOCOL"] . ' 401 Unauthorized');
     }

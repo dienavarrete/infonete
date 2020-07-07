@@ -8,6 +8,9 @@
             <form action="/publicaciones" method="post">
                 <fieldset>
                     <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" class="form-control"
+                               autocomplete="off" required>
                         <label for="numero">Número</label>
                         <input type="text" id="numero" name="numero" class="form-control"
                                autocomplete="off" required>
@@ -38,6 +41,7 @@
             event.preventDefault();
 
             var data = {
+                'nombre': $('input[name=nombre]').val(),
                 'numero': $('input[name=numero]').val(),
                 'tipo_publicacion': $('select[name=tipo_publicacion]').val(),
                 'contenido_gratuito': $('input[id=contenido_gratuito]').prop('checked'),

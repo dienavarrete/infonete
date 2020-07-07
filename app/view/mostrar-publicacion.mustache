@@ -5,6 +5,33 @@
         </div>
         <div class="col-sm-10">
             <div id="accordion">
+                Nombre: <strong> {{publicacion.nombre}} </strong><br/>
+                Numero: <strong> {{publicacion.numero}} </strong><br/>
+                Contenido Gratuito: <strong> 
+                {{#publicacion.contenido_gratuito}} 
+                    Si
+                {{/publicacion.contenido_gratuito}} 
+                {{^publicacion.contenido_gratuito}}
+                    No
+                {{/publicacion.contenido_gratuito}}
+                </strong><br/>
+                
+                
+                {{#session.usuario.es_admin}}
+                <form action="#" id="form-update-status">
+                    <div class="input-group" style="width:300px">
+                            <select class="custom-select" name="estado" id="estado">
+                                {{#estados}}
+                                    <option value="{{id}}">{{descripcion}}</option>
+                                {{/estados}}
+                            </select>
+                            <input type="hidden" name="id_estado" value="{{ publicacion.id_estado }}">
+                            <div class="input-group-append">
+                                <button type="button" id="update-status" class="btn btn-outline-secondary">Confirmar estado</button>
+                            </div>
+                    </div>
+                </form>
+                {{/session.usuario.es_admin}}
                 {{#publicacion.secciones}}
                     <div class="card">
                         <div class="card-header" id="headingOne">
@@ -12,7 +39,7 @@
                         </div>
 
                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                             data-parent="#accordion">
+                            data-parent="#accordion">
                             <div class="card-body">
                                 {{#noticias}}
                                     <div class="card">
@@ -118,6 +145,8 @@
     <script type="text/javascript">
 
         $(document).ready(() => {
+            $('#form-update-status select[name=estado]').val($('#form-update-status input[name=id_estado]').val());
+            $('#form-update-status select[name=estado]').val($('#form-update-status input[name=id_estado]').val());
             $('#modal-form-noticia').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget);
                 var idSeccion = button.data('id-seccion');
@@ -147,7 +176,32 @@
                     });
                 });
 
+                
+
             });
+
+            $('#update-status').click(function() {
+                    var data = {
+                        'id_estado': $('#form-update-status select[name=estado]').val(),
+                    };
+
+                    $.ajax({
+                        type: 'POST',
+                        url: `/publicaciones/{{id}}/estado`,
+                        data: data,
+                        statusCode: {
+                            200: function(data) {
+                                location.reload();
+                            },
+                            400: function() {
+                                alert('Mandaste fruta');
+                            },
+                            401: function(data) {
+                                alert('no tenés permisos suficientes');
+                            },
+                        },
+                    });
+                });
 
             $('#modal-form-seccion').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget);
