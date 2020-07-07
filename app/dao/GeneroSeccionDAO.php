@@ -2,12 +2,12 @@
 
 require_once "model/GeneroSeccion.php";
 
-class GeneroSeccionDao
+class GeneroSeccionDAO
 {
     private $conexion;
 
     /**
-     * GeneroSeccionDao constructor.
+     * GeneroSeccionDAO constructor.
      * @param Database $database
      */
     public function __construct($database)
