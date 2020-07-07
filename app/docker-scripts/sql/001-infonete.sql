@@ -84,6 +84,7 @@ create table genero_seccion
 create table publicacion
 (
     id                  int primary key auto_increment,
+    nombre              varchar(50),
     contenido_gratuito  boolean,
     numero              int,
     estado_registro     boolean,

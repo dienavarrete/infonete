@@ -61,8 +61,10 @@ class ModuleInitializer
     {
         include_once("controller/DashboardController.php");
         include_once("dao/UsuarioDAO.php");
+        include_once("dao/NoticiaDAO.php");
 
-        return new DashboardController($this->renderer);
+        $noticiaDAO = new NoticiaDAO($this->database);
+        return new DashboardController($this->renderer, $noticiaDAO);
     }
 
     /**
@@ -121,6 +123,7 @@ class ModuleInitializer
         include_once("dao/TipoPublicacionDAO.php");
         include_once("dao/SeccionDAO.php");
         include_once("dao/NoticiaDAO.php");
+        include_once("dao/EstadoDAO.php");
         include_once("dao/GeneroSeccionDAO.php");
 
         $publicacionDao = new PublicacionDAO($this->database);
@@ -128,8 +131,9 @@ class ModuleInitializer
         $seccionDao = new SeccionDAO($this->database);
         $noticiaDao = new NoticiaDAO($this->database);
         $generoDAO = new GeneroSeccionDAO($this->database);
+        $estadoDAO = new EstadoDAO($this->database);
 
-        return new PublicacionController($this->renderer, $publicacionDao, $tipoPublicacionDao, $seccionDao, $noticiaDao, $generoDAO);
+        return new PublicacionController($this->renderer, $publicacionDao, $tipoPublicacionDao, $seccionDao, $noticiaDao, $generoDAO, $estadoDAO);
     }
 
 }

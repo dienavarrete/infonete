@@ -151,10 +151,12 @@ class Seccion
     public static function toListArrayMap($array)
     {
         $r = array();
-
-        foreach ($array as $seccion) {
-            array_push($r, self::toArrayMap($seccion));
+        if (is_array($array)) {
+            foreach ($array as $seccion) {
+                array_push($r, self::toArrayMap($seccion));
+            }
         }
+        
 
         return $r;
     }
