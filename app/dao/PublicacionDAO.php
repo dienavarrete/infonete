@@ -1,6 +1,7 @@
 <?php
 
 require_once "model/Publicacion.php";
+require_once "model/Estado.php";
 
 class PublicacionDAO
 {
@@ -31,9 +32,10 @@ class PublicacionDAO
 
     public function getPublicacion($id)
     {
+
         $publicacion = $this
             ->conexion
-            ->querySingleRow("select id, contenido_gratuito, nombre, numero, estado_registro, fecha, id_tipo_publicacion, id_estado from publicacion where id = $id");
+            ->querySingleRow("select p.id, contenido_gratuito, nombre, numero, estado_registro, fecha, id_tipo_publicacion, e.id id_estado, e.codigo codigo_estado, e.descripcion descripcion_estado from publicacion p inner join estado e on p.id_estado = e.id where p.id = $id");
 
         return new Publicacion(
             $publicacion["id"],
@@ -43,17 +45,17 @@ class PublicacionDAO
             $publicacion["estado_registro"],
             date($publicacion["fecha"]),
             $publicacion["id_tipo_publicacion"],
-            $publicacion["id_estado"]
+            new Estado($publicacion["id_estado"], $publicacion["codigo_estado"], $publicacion["descripcion_estado"])
         );
     }
 
     public function getPublicaciones()
     {
-        $publicaciones = $this
-            ->conexion
-            ->query("select id, contenido_gratuito, nombre, numero, estado_registro, fecha, id_tipo_publicacion, id_estado from publicacion");
 
         $result = array();
+        $publicaciones = $this
+            ->conexion
+            ->query("select p.id, contenido_gratuito, nombre, numero, estado_registro, fecha, id_tipo_publicacion, e.id id_estado, e.codigo codigo_estado, e.descripcion descripcion_estado from publicacion p inner join estado e on p.id_estado = e.id");
 
         foreach ($publicaciones as $k => $publicacion) {
             array_push($result, new Publicacion(
@@ -64,7 +66,7 @@ class PublicacionDAO
                 $publicacion["estado_registro"],
                 date($publicacion["fecha"]),
                 $publicacion["id_tipo_publicacion"],
-                $publicacion["id_estado"]
+                new Estado($publicacion["id_estado"], $publicacion["codigo_estado"], $publicacion["descripcion_estado"])
             ));
         }
 

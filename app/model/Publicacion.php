@@ -10,7 +10,7 @@ class Publicacion
     private $estado_registro;
     private $fecha;
     private $id_tipo_publicacion;
-    private $id_estado;
+    private $estado;
     private $secciones;
 
     /**
@@ -22,9 +22,9 @@ class Publicacion
      * @param $estado_registro
      * @param $fecha
      * @param $id_tipo_publicacion
-     * @param $id_estado
+     * @param Estado $estado
      */
-    public function __construct($id, $contenido_gratuito, $nombre, $numero, $estado_registro, $fecha, $id_tipo_publicacion, $id_estado)
+    public function __construct($id, $contenido_gratuito, $nombre, $numero, $estado_registro, $fecha, $id_tipo_publicacion, $estado)
     {
         $this->id = $id;
         $this->contenido_gratuito = $contenido_gratuito;
@@ -33,7 +33,7 @@ class Publicacion
         $this->estado_registro = $estado_registro;
         $this->fecha = $fecha;
         $this->id_tipo_publicacion = $id_tipo_publicacion;
-        $this->id_estado = $id_estado;
+        $this->estado = $estado;
     }
 
     /**
@@ -152,20 +152,19 @@ class Publicacion
     /**
      * @return Estado
      */
-    
-    
-    public function getIdEstadoPublicacion()
+    public function getEstado()
     {
-        return $this->id_estado;
+        return $this->estado;
     }
 
     /**
-     * @param mixed $id_estado
+     * @param Estado $estado
      */
-    public function setIdEstadoPublicacion($id_estado)
+    public function setEstado($estado)
     {
-        $this->id_estado = $id_estado;
+        $this->estado = $estado;
     }
+
 
     /**
      * @return mixed
@@ -199,7 +198,7 @@ class Publicacion
                 "estado_registro" => $publicacion->getEstadoRegistro(),
                 "fecha" => $publicacion->getFecha(),
                 "id_tipo_publicacion" => $publicacion->getIdTipoPublicacion(),
-                "id_estado" => $publicacion->getIdEstadoPublicacion(),
+                "estado" => Estado::toArrayMap($publicacion->getEstado()),
                 "secciones" => Seccion::toListArrayMap($publicacion->getSecciones())
             );
         } else {

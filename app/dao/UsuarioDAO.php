@@ -33,7 +33,7 @@ class UsuarioDAO
     {
         $usuario = $this
             ->conexion
-            ->querySingleRow("select us.id, us.usuario, p.nombres nombres, p.apellido apellido, p.fecha_nacimiento, r.codigo codigo_rol, r.descripcion descripcion_rol from usuario us left join persona p on us.id_persona = p.id inner join rol r on us.id_rol = r.id where usuario = '$usuario' and password = '$password'");
+            ->querySingleRow("select us.id, us.usuario, p.nombres nombres, p.apellido apellido, p.fecha_nacimiento, r.codigo codigo_rol, r.descripcion descripcion_rol, (select count(1) suscripcion_activa from suscripcion where id_usuario = us.id and now() between fecha_vigencia_desde and fecha_vigencia_hasta) suscripcion_activa from usuario us left join persona p on us.id_persona = p.id inner join rol r on us.id_rol = r.id where usuario = '$usuario' and password = '$password'");
 
         return new Usuario(
             $usuario["id"],
@@ -41,7 +41,9 @@ class UsuarioDAO
             $usuario["nombres"],
             $usuario["apellido"],
             date($usuario["fecha_nacimiento"]),
-            new RolUsuario($usuario["codigo_rol"], $usuario["descripcion_rol"])
+            new RolUsuario($usuario["codigo_rol"],
+                $usuario["descripcion_rol"]),
+            $usuario["suscripcion_activa"]
         );
     }
 }

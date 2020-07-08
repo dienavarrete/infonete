@@ -2,12 +2,12 @@
 
 require_once "model/Estado.php";
 
-class EstadoDao
+class EstadoDAO
 {
     private $conexion;
 
     /**
-     * EstadoDao constructor.
+     * EstadoDAO constructor.
      * @param Database $database
      */
     public function __construct($database)
