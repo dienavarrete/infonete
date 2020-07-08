@@ -20,7 +20,7 @@ class DashboardController
         echo $this->renderer->render("view/dashboard.mustache",
             array(
                 "title" => "Dashboard",
-                "noticias" => $this->noticiaDAO->getNoticiasPorUsuario()
+                "noticias" => Noticia::toListArrayMap($this->noticiaDAO->getNoticiasPorUsuario())
         ));
     }
 }

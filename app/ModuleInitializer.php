@@ -25,7 +25,10 @@ class ModuleInitializer
     public function createInicioController()
     {
         include_once("controller/InicioController.php");
-        return new InicioController($this->renderer);
+        include_once("dao/NoticiaDAO.php");
+        
+        $noticiaDao = new NoticiaDAO($this->database);
+        return new InicioController($this->renderer, $noticiaDao);
     }
 
     /**
