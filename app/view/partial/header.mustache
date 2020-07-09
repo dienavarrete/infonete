@@ -11,6 +11,9 @@
                     <li><a class="nav-link" href="/usuarios">Usuarios</a></li>
                 {{/session.usuario.es_admin}}
                 <li class="nav-item"><a class="nav-link" href="/logout">Cerrar sesión</a></li>
+                {{#session.usuario.suscripcion_activa}}
+                    <li><span class="badge badge-warning">Suscripción activa</span></li>
+                {{/session.usuario.suscripcion_activa}}
             {{/session.usuario}}
             {{^session.usuario}}
                 <li class="nav-item"><a class="nav-link" href="/login">Iniciar sesión</a></li>

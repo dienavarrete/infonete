@@ -9,6 +9,7 @@ class Usuario
     private $nombre;
     private $fecha_nacimiento;
     private $rol;
+    private $suscripcion_activa;
 
     /**
      * Usuario constructor.
@@ -18,8 +19,9 @@ class Usuario
      * @param str $nombre
      * @param Date $fecha_nacimiento
      * @param RolUsuario $rol
+     * @param $suscripcion_activa
      */
-    public function __construct($id, $usuario, $apellido, $nombre, $fecha_nacimiento, $rol)
+    public function __construct($id, $usuario, $apellido, $nombre, $fecha_nacimiento, $rol, $suscripcion_activa)
     {
         $this->id = $id;
         $this->usuario = $usuario;
@@ -27,6 +29,7 @@ class Usuario
         $this->nombre = $nombre;
         $this->fecha_nacimiento = $fecha_nacimiento;
         $this->rol = $rol;
+        $this->suscripcion_activa = $suscripcion_activa;
     }
 
     /**
@@ -134,9 +137,6 @@ class Usuario
         return $this->getRol()->getCodigo() == '10';
     }
 
-    public function estaSuscripto() {
-        return true;
-    }
     /**
      * @param Usuario $usuario
      *
@@ -152,7 +152,7 @@ class Usuario
                 "nombre" => $usuario->getNombre(),
                 "fecha_nacimiento" => $usuario->getFechaNacimiento(),
                 "rol_usuario" => RolUsuario::toArrayMap($usuario->getRol()),
-                "esta_suscripto" => $usuario->estaSuscripto(),
+                "suscripcion_activa" => $usuario->getSuscripcionActiva(),
                 "es_admin" => $usuario->esAdmin(),
                 "es_contenidista" => $usuario->esContenidista(),
                 "puede_generar_contenido" => $usuario->esAdmin() || $usuario->esContenidista()
@@ -172,4 +172,20 @@ class Usuario
 
         return $r;
     }
+    /**
+     * @return mixed
+     */
+    public function getSuscripcionActiva()
+    {
+        return $this->suscripcion_activa;
+    }
+
+    /**
+     * @param mixed $suscripcion_activa
+     */
+    public function setSuscripcionActiva($suscripcion_activa)
+    {
+        $this->suscripcion_activa = $suscripcion_activa;
+    }
+
 }

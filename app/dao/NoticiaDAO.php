@@ -53,26 +53,26 @@ class NoticiaDAO
 
     public function getNoticiasPorUsuario()
     {
-        if ( $_SESSION["usuario"] && $_SESSION["usuario"]["esta_suscripto"]) {
+        if ($_SESSION["usuario"] && $_SESSION["usuario"]["esta_suscripto"]) {
             $noticias = $this
-            ->conexion
-            ->query("SELECT n.id, n.titulo, n.contenido, g.descripcion, p.fecha
+                ->conexion
+                ->query("SELECT n.id, n.titulo, n.contenido, g.descripcion, p.fecha
                     from noticia as n
                     join seccion as s on n.id_seccion = s.id
                     join publicacion as p on s.id_publicacion = p.id
                     join genero_seccion as g on s.id_genero = g.id
                     where p.id_estado = (select id from estado where codigo = '30')
                     order by p.fecha");
-        }else{
+        } else {
             $noticias = $this
-            ->conexion
-            ->query("SELECT n.id, n.titulo, n.contenido, g.descripcion, p.fecha
+                ->conexion
+                ->query("SELECT n.id, n.titulo, n.contenido, g.descripcion, p.fecha
                     from noticia as n
                     join seccion as s on n.id_seccion = s.id
                     join publicacion as p on s.id_publicacion = p.id
                     join genero_seccion as g on s.id_genero = g.id
                     where p.id_estado = (select id from estado where codigo = '30') && 
-                        p.contenido_gratuito = true
+                        p.contenido_gratuito
                     order by p.fecha");
         }
 

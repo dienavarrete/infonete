@@ -4,32 +4,39 @@
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
             <div id="accordion">
-                Nombre: <strong> {{publicacion.nombre}} </strong><br/>
-                Numero: <strong> {{publicacion.numero}} </strong><br/>
-                Contenido Gratuito: <strong> 
-                {{#publicacion.contenido_gratuito}} 
-                    Si
-                {{/publicacion.contenido_gratuito}} 
-                {{^publicacion.contenido_gratuito}}
-                    No
-                {{/publicacion.contenido_gratuito}}
-                </strong><br/>
-                
-                
+                <ul>
+                    <li>Nombre: <strong> {{publicacion.nombre}} </strong></li>
+                    <li>Numero: <strong> {{publicacion.numero}} </strong><br/></li>
+                    <li>Contenido Gratuito: <strong>
+                        {{#publicacion.contenido_gratuito}}
+                            Si
+                        {{/publicacion.contenido_gratuito}}
+                        {{^publicacion.contenido_gratuito}}
+                            No
+                        {{/publicacion.contenido_gratuito}}
+                    </strong><br/></li>
+                </ul>
+                <br/>
+
+
+
+
                 {{#session.usuario.es_admin}}
-                <form action="#" id="form-update-status">
-                    <div class="input-group" style="width:300px">
+                    <form action="#" id="form-update-status">
+                        <div class="input-group" style="width:300px">
                             <select class="custom-select" name="estado" id="estado">
                                 {{#estados}}
                                     <option value="{{id}}">{{descripcion}}</option>
                                 {{/estados}}
                             </select>
-                            <input type="hidden" name="id_estado" value="{{ publicacion.id_estado }}">
+                            <input type="hidden" name="id_estado" value="{{publicacion.estado.id}}">
                             <div class="input-group-append">
-                                <button type="button" id="update-status" class="btn btn-outline-secondary">Confirmar estado</button>
+                                <button type="button" id="update-status" class="btn btn-outline-secondary">Confirmar
+                                    estado
+                                </button>
                             </div>
-                    </div>
-                </form>
+                        </div>
+                    </form>
                 {{/session.usuario.es_admin}}
                 {{#publicacion.secciones}}
                     <div class="card my-3">
@@ -38,7 +45,7 @@
                         </div>
 
                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                            data-parent="#accordion">
+                             data-parent="#accordion">
                             <div class="card-body">
                                 {{#noticias}}
                                     <div class="card my-3">
@@ -57,15 +64,18 @@
                         </div>
                     </div>
                 {{/publicacion.secciones}}
-                <div id="accordion">
-                    <div class="card">
-                        <div class="card-header" id="headingOne">
-                            <a class="font-weight-bold" data-toggle="modal"
-                               data-target="#modal-form-seccion" data-id-publicacion="{{id}}" href="#"> + Nueva seccion
-                            </a>
+                {{#session.usuario.puede_generar_contenido}}
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <a class="font-weight-bold" data-toggle="modal"
+                                   data-target="#modal-form-seccion" data-id-publicacion="{{id}}" href="#"> + Nueva
+                                    seccion
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                {{/session.usuario.puede_generar_contenido}}
             </div>
         </div>
         <div class="col-sm-1">
@@ -175,32 +185,30 @@
                     });
                 });
 
-                
-
             });
 
             $('#update-status').click(function() {
-                    var data = {
-                        'id_estado': $('#form-update-status select[name=estado]').val(),
-                    };
+                var data = {
+                    'id_estado': $('#form-update-status select[name=estado]').val(),
+                };
 
-                    $.ajax({
-                        type: 'POST',
-                        url: `/publicaciones/{{id}}/estado`,
-                        data: data,
-                        statusCode: {
-                            200: function(data) {
-                                location.reload();
-                            },
-                            400: function() {
-                                alert('Mandaste fruta');
-                            },
-                            401: function(data) {
-                                alert('no tenés permisos suficientes');
-                            },
+                $.ajax({
+                    type: 'POST',
+                    url: `/publicaciones/{{id}}/estado`,
+                    data: data,
+                    statusCode: {
+                        200: function(data) {
+                            location.reload();
                         },
-                    });
+                        400: function() {
+                            alert('Mandaste fruta');
+                        },
+                        401: function(data) {
+                            alert('no tenés permisos suficientes');
+                        },
+                    },
                 });
+            });
 
             $('#modal-form-seccion').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget);
