@@ -49,7 +49,7 @@ $router->map('POST', '/secciones/[i:id_seccion]/noticias', function ($id_seccion
 $router->map('GET', '/usuarios', function () use ($moduleInitializer) {
     
     try {
-        //SessionHelper::rolOneOf(['10']);
+        SessionHelper::rolOneOf(['10']);
         $controller = $moduleInitializer->createUsuarioController();
         $controller->getUsuarios();
     } catch (EntityNotFoundException $ex) {
@@ -62,7 +62,7 @@ $router->map('GET', '/usuarios', function () use ($moduleInitializer) {
 $router->map('GET', '/publicaciones', function () use ($moduleInitializer) {
     
     try {
-        //SessionHelper::rolOneOf(['10', '20']);
+        SessionHelper::rolOneOf(['10', '20']);
         $controller = $moduleInitializer->createPublicacionController();
         $controller->getPublicaciones();
     } catch (EntityNotFoundException $ex) {
@@ -124,6 +124,16 @@ $router->map('POST', '/publicaciones/[i:publicacion]/estado', function ($publica
         SessionHelper::rolOneOf(['10', '20']);
         $controller = $moduleInitializer->createPublicacionController();
         echo $controller->updateStatusPublicacion($publicacion);
+    } catch (UnauthorizedException $ex) {
+        header($_SERVER["SERVER_PROTOCOL"] . ' 401 Unauthorized');
+    }
+});
+
+$router->map('POST', '/usuarios/[i:usuario]/rol', function ($usuario) use ($moduleInitializer) {
+    try {
+        SessionHelper::rolOneOf(['10']);
+        $controller = $moduleInitializer->createUsuarioController();
+        echo $controller->updateRolUsuario($usuario);
     } catch (UnauthorizedException $ex) {
         header($_SERVER["SERVER_PROTOCOL"] . ' 401 Unauthorized');
     }

@@ -18,17 +18,17 @@ class RolUsuarioDAO
 
     public function getRoles()
     {
-        $estados = $this
+        $roles = $this
             ->conexion
-            ->query("select id, codigo, descripcion from estado");
+            ->query("select id, codigo, descripcion from rol");
 
         $result = array();
 
-        foreach ($estados as $k => $estado) {
+        foreach ($roles as $k => $rol) {
             array_push($result, new RolUsuario(
-                $estado["id"],
-                $estado["codigo"],
-                $estado["descripcion"]));
+                $rol["id"],
+                $rol["codigo"],
+                $rol["descripcion"]));
         }
 
         return $result;

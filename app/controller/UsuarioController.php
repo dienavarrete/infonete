@@ -33,5 +33,10 @@ class UsuarioController
         
     }
 
-    
+    public function updateRolUsuario($id_usuario)
+    {
+        $id_rol = $_POST["id_rol"];
+        var_dump($id_rol, $id_usuario);
+        return $this->usuarioDao->updateRolUsuario($id_rol, $id_usuario);
+    }
 }

@@ -21,8 +21,11 @@
                                 <td>{{nombre}}</td>
                                 <td>{{apellido}}</td>
                                 <td>{{usuario}}</td>
-                                <td>{{rol_usuario.descripcion}}</td>
-                                <td><a class="nav-link" href="/usuarios/{{id}}">VER</a></td>
+                                <td>
+                                    {{rol_usuario.descripcion}}   
+                                </td>
+                                <td><a class="nav-link" data-toggle="modal"
+                                    data-target="#modal-form-rol" data-id-usuario="{{id}}" href="#">Modificar Rol</a> </td>
                             </tr>
                         {{/usuarios}}
                     </tbody>
@@ -34,6 +37,33 @@
     </div>
 </div>
 {{#session.usuario.puede_generar_contenido}}
+{{! modal de rols }}
+    <div class="modal fade" id="modal-form-rol" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nuevo rol</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" id="form-update-rol">
+                        <select class="form-control" name="rol_usuario" id="rol_usuario" defaultValue="{{rol_usuario.id}}">
+                            {{#roles}}
+                                <option value="{{id}}">{{descripcion}}</option>
+                            {{/roles}}
+                        </select>
+                        <input type="hidden" name="id_rol" value="{{rol_usuario.id}}">
+                    </form> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" id="modificar-rol" class="btn btn-primary">Modificar rol</button>
+                </div>
+            </div>
+        </div>
+    </div>
     
 {{/session.usuario.puede_generar_contenido}}
 {{> footer}}
@@ -42,10 +72,10 @@
     <script type="text/javascript">
 
         $(document).ready(() => {
-            $('#form-update-status select[name=estado]').val($('#form-update-status input[name=id_estado]').val());
+           // $('#form-update-rol select[name=rol_usuario]').val($('#form-update-rol input[name=id_rol]').val());
 
             
-            console.log(data);
+            console.log($('#form-update-rol input[name=id_rol]').val());
            
             $('#update-status').click(function() {
                     var data = {
@@ -70,19 +100,18 @@
                     });
                 });
 
-            $('#modal-form-seccion').on('show.bs.modal', function(event) {
+            $('#modal-form-rol').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget);
-                var idPublicacion = button.data('id-publicacion');
+                var idUsuario = button.data('id-usuario');
 
-                $('#crear-seccion').click(function() {
+                $('#modificar-rol').click(function() {
 
                     var data = {
-                        'id_genero': $('select[name=genero]').val(),
+                        'id_rol': $('select[name=rol_usuario]').val(),
                     };
-
                     $.ajax({
                         type: 'POST',
-                        url: `/publicaciones/${idPublicacion}/secciones`,
+                        url: `/usuarios/${idUsuario}/rol`,
                         data: data,
                         statusCode: {
                             200: function(data) {

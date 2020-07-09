@@ -41,7 +41,7 @@ class UsuarioDAO
             $usuario["nombres"],
             $usuario["apellido"],
             date($usuario["fecha_nacimiento"]),
-            new RolUsuario($usuario["codigo_rol"],
+            new RolUsuario($usuario["id_rol"], $usuario["codigo_rol"],
                 $usuario["descripcion_rol"]),
             $usuario["suscripcion_activa"]
         );
@@ -52,7 +52,7 @@ class UsuarioDAO
     {
         $usuarios = $this
             ->conexion
-            ->query("select us.id, us.usuario, p.nombres nombres, p.apellido apellido, p.fecha_nacimiento, r.codigo codigo_rol, r.descripcion descripcion_rol from usuario us left join persona p on us.id_persona = p.id inner join rol r on us.id_rol = r.id ");
+            ->query("select us.id, us.usuario, p.nombres nombres, p.apellido apellido, p.fecha_nacimiento, r.id id_rol, r.codigo codigo_rol, r.descripcion descripcion_rol from usuario us left join persona p on us.id_persona = p.id inner join rol r on us.id_rol = r.id ");
 
 
         $result = array();
@@ -64,10 +64,18 @@ class UsuarioDAO
                 $usuario["nombres"],
                 $usuario["apellido"],
                 date($usuario["fecha_nacimiento"]),
-                new RolUsuario($usuario["codigo_rol"], $usuario["descripcion_rol"])
+                new RolUsuario($usuario["id_rol"], $usuario["codigo_rol"], $usuario["descripcion_rol"]),
+                $usuario["suscripcion_activa"]
             ));
         }
 
         return $result;
+    }
+
+    public function updateRolUsuario($id_rol, $id_usuario)
+    {
+        return $this
+            ->conexion
+            ->insertQuery("update usuario SET id_rol = $id_rol where id = $id_usuario");
     }
 }
