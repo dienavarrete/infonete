@@ -46,13 +46,23 @@ $router->map('POST', '/secciones/[i:id_seccion]/noticias', function ($id_seccion
     }
 });
 
-/*$router->map('GET', '/secciones/[i:id_seccion]/noticias', function ($id_seccion) use ($moduleInitializer) {
-    $controller = $moduleInitializer->createNoticiaController();
-    $controller->formularioNoticia($id_seccion);
-});*/
+$router->map('GET', '/usuarios', function () use ($moduleInitializer) {
+    
+    try {
+        //SessionHelper::rolOneOf(['10']);
+        $controller = $moduleInitializer->createUsuarioController();
+        $controller->getUsuarios();
+    } catch (EntityNotFoundException $ex) {
+        header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
+        $controller = $moduleInitializer->createError404Controller();
+        $controller->get404View();
+    }
+});
+
 $router->map('GET', '/publicaciones', function () use ($moduleInitializer) {
     
     try {
+        //SessionHelper::rolOneOf(['10', '20']);
         $controller = $moduleInitializer->createPublicacionController();
         $controller->getPublicaciones();
     } catch (EntityNotFoundException $ex) {

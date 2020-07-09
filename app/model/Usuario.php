@@ -161,5 +161,15 @@ class Usuario
             return array();
         }
     }
- 
+
+    public static function toListArrayMap($array)
+    {
+        $r = array();
+
+        foreach ($array as $usuario) {
+            array_push($r, self::toArrayMap($usuario));
+        }
+
+        return $r;
+    }
 }

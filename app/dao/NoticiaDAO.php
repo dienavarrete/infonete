@@ -32,19 +32,21 @@ class NoticiaDAO
             ->query("select id, titulo, contenido, estado_registro, id_seccion, id_contenidista, id_localidad, id_estado from noticia where id_seccion = $id_seccion");
 
         $result = array();
-
-        foreach ($noticias as $k => $noticia) {
-            array_push($result, new Noticia(
-                $noticia["id"],
-                $noticia["titulo"],
-                $noticia["contenido"],
-                $noticia["estado_registro"],
-                $noticia["id_seccion"],
-                $noticia["id_contenidista"],
-                $noticia["id_localidad"],
-                $noticia["id_estado"]
-            ));
+        if (is_array($noticias)) {
+            foreach ($noticias as $k => $noticia) {
+                array_push($result, new Noticia(
+                    $noticia["id"],
+                    $noticia["titulo"],
+                    $noticia["contenido"],
+                    $noticia["estado_registro"],
+                    $noticia["id_seccion"],
+                    $noticia["id_contenidista"],
+                    $noticia["id_localidad"],
+                    $noticia["id_estado"]
+                ));
+            }
         }
+        
 
         return $result;
     }
@@ -70,23 +72,25 @@ class NoticiaDAO
                     join publicacion as p on s.id_publicacion = p.id
                     join genero_seccion as g on s.id_genero = g.id
                     where p.id_estado = (select id from estado where codigo = '30') && 
-                        p.contenido_gratuito == true
+                        p.contenido_gratuito = true
                     order by p.fecha");
         }
 
         $result = array();
 
-        foreach ($noticias as $k => $noticia) {
-            array_push($result, new Noticia(
-                $noticia["id"],
-                $noticia["titulo"],
-                $noticia["contenido"],
-                $noticia["estado_registro"],
-                $noticia["id_seccion"],
-                $noticia["id_contenidista"],
-                $noticia["id_localidad"],
-                $noticia["id_estado"]
-            ));
+        if (is_array($noticias)) {
+            foreach ($noticias as $k => $noticia) {
+                array_push($result, new Noticia(
+                    $noticia["id"],
+                    $noticia["titulo"],
+                    $noticia["contenido"],
+                    $noticia["estado_registro"],
+                    $noticia["id_seccion"],
+                    $noticia["id_contenidista"],
+                    $noticia["id_localidad"],
+                    $noticia["id_estado"]
+                ));
+            }
         }
 
         return $result;

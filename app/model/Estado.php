@@ -92,8 +92,8 @@ class Estado
     {
         $r = array();
 
-        foreach ($array as $seccion) {
-            array_push($r, self::toArrayMap($seccion));
+        foreach ($array as $rol) {
+            array_push($r, self::toArrayMap($rol));
         }
 
         return $r;

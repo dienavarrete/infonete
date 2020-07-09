@@ -6,8 +6,10 @@
                     {{session.usuario.usuario}}</span></li>
                 {{#session.usuario.puede_generar_contenido}}
                     <li><a class="nav-link" href="/publicaciones">Publicaciones</a></li>
-                    {{! <li><a class="nav-link" href="/crear-publicacion">Crear publicación</a></li> }}
                 {{/session.usuario.puede_generar_contenido}}
+                {{#session.usuario.es_admin}}
+                    <li><a class="nav-link" href="/usuarios">Usuarios</a></li>
+                {{/session.usuario.es_admin}}
                 <li class="nav-item"><a class="nav-link" href="/logout">Cerrar sesión</a></li>
             {{/session.usuario}}
             {{^session.usuario}}

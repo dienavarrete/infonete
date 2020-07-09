@@ -46,6 +46,20 @@ class ModuleInitializer
     }
 
     /**
+     * @return UsuarioController
+     */
+    public function createUsuarioController()
+    {
+        include_once("controller/UsuarioController.php");
+        include_once("dao/UsuarioDAO.php");
+        include_once("dao/RolUsuarioDAO.php");
+
+        $usuarioDao = new UsuarioDAO($this->database);
+        $rolUsuarioDao = new RolUsuarioDAO($this->database);
+        return new UsuarioController($usuarioDao, $rolUsuarioDao, $this->renderer);
+    }
+
+    /**
      * @return LoginController
      */
     public function createLoginController()

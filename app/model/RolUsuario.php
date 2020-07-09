@@ -66,4 +66,16 @@ class RolUsuario
             return array();
         }
     }
+
+    
+    public static function toListArrayMap($array)
+    {
+        $r = array();
+
+        foreach ($array as $rol) {
+            array_push($r, self::toArrayMap($rol));
+        }
+
+        return $r;
+    }
 }
