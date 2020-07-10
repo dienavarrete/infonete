@@ -51,7 +51,10 @@
                                     <div class="card my-3">
                                         <div class="card-body">
                                             <h5 class="card-title">{{titulo}}</h5>
-                                            <p class="card-text">{{contenido}}</p>
+                                            <p class="card-text">{{{contenido}}}</p>
+                                            {{#image_path}}
+                                                <img src="{{image_path}}" alt="">
+                                            {{/image_path}}
                                         </div>
                                     </div>
                                 {{/noticias}}
@@ -69,7 +72,7 @@
                         <div class="card">
                             <div class="card-header" id="headingOne">
                                 <a class="font-weight-bold" data-toggle="modal"
-                                    data-target="#modal-form-seccion" data-id-publicacion="{{id}}" href="#"> + Nueva
+                                   data-target="#modal-form-seccion" data-id-publicacion="{{id}}" href="#"> + Nueva
                                     seccion
                                 </a>
                             </div>
@@ -139,7 +142,7 @@
                             <input type="hidden" name="id_contenidista" value="{{session.usuario.id}}"/>
                             <label for="imagen">Imagen</label>
                             <div class="custom-file">
-                                
+
                                 <input type="file" class="form-control" name="imagen" id="imagen">
                                 <label class="custom-file-label" for="imagen">Elegir archivo</label>
                             </div>
@@ -167,22 +170,23 @@
                 var idSeccion = button.data('id-seccion');
 
                 $('#crear-noticia').click(function() {
+                    $('form#form-nueva-noticia').submit();
+                });
 
-
-                    var data = {
-                        'titulo': $('#form-nueva-noticia input[name=titulo]').val(),
-                        'contenido': $('#form-nueva-noticia textarea[name=contenido]').val(),
-                        'imagen': $("#imagen").val(),
-                    };
-
+                $('form#form-nueva-noticia').submit(function(e) {
+                    e.preventDefault();
+                    let data = new FormData(this);
 
                     $.ajax({
                         type: 'POST',
                         url: `/secciones/${idSeccion}/noticias`,
                         data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
                         statusCode: {
                             200: function(data) {
-                                //location.reload();
+                                location.reload();
                             },
                             400: function() {
                                 alert('Mandaste fruta');

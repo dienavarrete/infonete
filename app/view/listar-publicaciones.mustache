@@ -45,10 +45,6 @@
         $(document).ready(() => {
             $('#form-update-status select[name=estado]').val($('#form-update-status input[name=id_estado]').val());
 
-            
-            console.log(data);
-           
-
             $('#modal-form-noticia').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget);
                 var idSeccion = button.data('id-seccion');

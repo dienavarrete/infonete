@@ -18,9 +18,11 @@ class PublicacionDAO
 
     public function insertarPublicacion($contenido_gratuito, $nombre, $numero, $id_tipo_publicacion)
     {
+        $flag = strtolower($contenido_gratuito) == 'true' ? 1 : 0;
+
         return $this
             ->conexion
-            ->insertQuery("insert into publicacion (nombre, contenido_gratuito, numero, estado_registro, fecha, id_tipo_publicacion, id_estado) value ( '$nombre',$contenido_gratuito, $numero, 1, now(), $id_tipo_publicacion, (select id from estado where codigo = '10'))");
+            ->insertQuery("insert into publicacion (nombre, contenido_gratuito, numero, estado_registro, fecha, id_tipo_publicacion, id_estado) value ('$nombre', $flag, $numero, 1, now(), $id_tipo_publicacion, (select id from estado where codigo = '10'))");
     }
 
     public function updateEstadoPublicacion($id_estado, $id_publicacion)
