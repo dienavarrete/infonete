@@ -55,7 +55,7 @@ class NoticiaDAO
         if ($_SESSION["usuario"] && $_SESSION["usuario"]["esta_suscripto"]) {
             $noticias = $this
                 ->conexion
-                ->query("SELECT n.id, n.titulo, n.contenido, g.descripcion, p.fecha
+                ->query("SELECT n.id, n.titulo, n.contenido, n.image_path, g.descripcion, p.fecha
                     from noticia as n
                     join seccion as s on n.id_seccion = s.id
                     join publicacion as p on s.id_publicacion = p.id
@@ -65,7 +65,7 @@ class NoticiaDAO
         } else {
             $noticias = $this
                 ->conexion
-                ->query("SELECT n.id, n.titulo, n.contenido, g.descripcion, p.fecha
+                ->query("SELECT n.id, n.titulo, n.contenido, n.image_path, g.descripcion, p.fecha
                     from noticia as n
                     join seccion as s on n.id_seccion = s.id
                     join publicacion as p on s.id_publicacion = p.id
