@@ -29,7 +29,7 @@ class NoticiaDAO
     {
         $noticias = $this
             ->conexion
-            ->query("select id, titulo, contenido, estado_registro, id_seccion, id_contenidista, id_localidad, id_estado from noticia where id_seccion = $id_seccion");
+            ->query("select id, titulo, contenido, estado_registro, id_seccion, id_contenidista, id_localidad, id_estado, image_path from noticia where id_seccion = $id_seccion");
 
         $result = array();
         if (is_array($noticias)) {
@@ -42,7 +42,8 @@ class NoticiaDAO
                     $noticia["id_seccion"],
                     $noticia["id_contenidista"],
                     $noticia["id_localidad"],
-                    $noticia["id_estado"]
+                    $noticia["id_estado"],
+                    $noticia["image_path"]
                 ));
             }
         }
@@ -86,7 +87,8 @@ class NoticiaDAO
                     $noticia["id_seccion"],
                     $noticia["id_contenidista"],
                     $noticia["id_localidad"],
-                    $noticia["id_estado"]
+                    $noticia["id_estado"],
+                    $noticia["image_path"]
                 ));
             }
         }
@@ -99,7 +101,7 @@ class NoticiaDAO
 
         $noticia = $this
             ->conexion
-            ->querySingleRow("select id, titulo, contenido, estado_registro, id_seccion, id_contenidista, id_localidad, id_estado from noticia where id = $id");
+            ->querySingleRow("select id, titulo, contenido, estado_registro, id_seccion, id_contenidista, id_localidad, id_estado, image_path from noticia where id = $id");
 
         return new Noticia(
             $noticia["id"],
@@ -109,7 +111,8 @@ class NoticiaDAO
             $noticia["id_seccion"],
             $noticia["id_contenidista"],
             $noticia["id_localidad"],
-            $noticia["id_estado"]
+            $noticia["id_estado"],
+            $noticia["image_path"]
         );
     }
 }

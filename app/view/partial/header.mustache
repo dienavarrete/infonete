@@ -2,23 +2,33 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             {{#session.usuario}}
-                <li class="nav-item"><span class="navbar-brand mb-0 h1"><i class="fa fa-user" aria-hidden="true"></i>
-                    {{session.usuario.usuario}}</span></li>
+                    <li><a class="navbar-brand mb-0 h1" href="/dashboard">INFONETE</a></li>
                 {{#session.usuario.puede_generar_contenido}}
                     <li><a class="nav-link" href="/publicaciones">Publicaciones</a></li>
                 {{/session.usuario.puede_generar_contenido}}
                 {{#session.usuario.es_admin}}
                     <li><a class="nav-link" href="/usuarios">Usuarios</a></li>
                 {{/session.usuario.es_admin}}
-                <li class="nav-item"><a class="nav-link" href="/logout">Cerrar sesión</a></li>
+                
                 {{#session.usuario.suscripcion_activa}}
                     <li><span class="badge badge-warning">Suscripción activa</span></li>
                 {{/session.usuario.suscripcion_activa}}
             {{/session.usuario}}
-            {{^session.usuario}}
-                <li class="nav-item"><a class="nav-link" href="/login">Iniciar sesión</a></li>
-                <li class="nav-item"><a class="nav-link" href="/registro">Registro</a></li>
-            {{/session.usuario}}
         </ul>
+        {{^session.usuario}}
+            <ul class="navbar-nav my-2 my-sm-0">
+                <li><a class="nav-link" href="/login">Iniciar sesión</a></li>
+                <li><a class="nav-link" href="/registro">Registro</a></li>
+            </ul>
+        {{/session.usuario}}
+        
+        {{#session.usuario}}
+        <ul class="navbar-nav my-2 my-sm-0">
+            <li class="nav-item"><span class="navbar-brand mb-0 h1"><i class="fa fa-user" aria-hidden="true"></i>
+                    {{session.usuario.usuario}}</span></li>
+            <li><a class="nav-link" href="/logout">Cerrar sesión</a></li>
+        </ul>
+        {{/session.usuario}}
     </div>
+
 </nav>

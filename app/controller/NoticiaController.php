@@ -39,6 +39,7 @@ class NoticiaController
     public function getNoticia($id)
     {
         $noticia = Noticia::toArrayMap($this->noticiaDAO->getNoticia($id));
+        
         // echo $noticia["contenido_gratuito"];
         // if ($noticia["contenido_gratuito"] == 0 && !$_SESSION["usuario"]["suscripcion_activa"]) {
         //     //header("Location: /login");
