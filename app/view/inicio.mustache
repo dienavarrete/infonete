@@ -4,9 +4,9 @@
     <div class="row center-xs" >
         {{#noticias}}
             <div class="col-sm"style="margin-top:20px">
-                <div class="card" style="width: 15rem; height: 215px;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body" style="width: 15rem; height: 160px; overflow:hidden">
+                <div class="card" style="width: 20rem; height: 25rem;">
+                    <img class="card-img-top" src="{{image_paths}}" alt="{{titulo}}" style="min-height:212px">
+                    <div class="card-body" style="width: 14rem; height: 160px; overflow:hidden">
                         <h5 class="card-title">{{titulo}}</h5>
                         <p class="card-text"style="width: 15rem; height: 66px; overflow:hidden">{{contenido}}</p>
                         <a href="/noticias/{{id}}" class="btn btn-primary">ver noticia</a>
