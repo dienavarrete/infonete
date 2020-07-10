@@ -125,7 +125,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" id="form-nueva-noticia">
+                    <form action="#" id="form-nueva-noticia" enctype="multipart/form-data">
                         <fieldset>
                             <div class="form-group">
                                 <label for="titulo">Titulo</label>
@@ -137,6 +137,12 @@
                                 <textarea name="contenido" id="contenido" class="form-control"></textarea>
                             </div>
                             <input type="hidden" name="id_contenidista" value="{{session.usuario.id}}"/>
+                            <label for="imagen">Imagen</label>
+                            <div class="custom-file">
+                                
+                                <input type="file" class="form-control" name="imagen" id="imagen">
+                                <label class="custom-file-label" for="imagen">Elegir archivo</label>
+                            </div>
                         </fieldset>
                     </form>
                 </div>
@@ -162,10 +168,13 @@
 
                 $('#crear-noticia').click(function() {
 
+
                     var data = {
                         'titulo': $('#form-nueva-noticia input[name=titulo]').val(),
                         'contenido': $('#form-nueva-noticia textarea[name=contenido]').val(),
+                        'imagen': $("#imagen").val(),
                     };
+
 
                     $.ajax({
                         type: 'POST',
@@ -173,7 +182,7 @@
                         data: data,
                         statusCode: {
                             200: function(data) {
-                                location.reload();
+                                //location.reload();
                             },
                             400: function() {
                                 alert('Mandaste fruta');

@@ -122,6 +122,7 @@ create table noticia
     id_contenidista int,
     id_localidad    int,
     id_estado       int,
+    image_path      varchar(50),
     foreign key (id_seccion)
         references seccion (id),
     foreign key (id_contenidista)

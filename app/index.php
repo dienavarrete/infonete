@@ -139,8 +139,15 @@ $router->map('POST', '/usuarios/[i:usuario]/rol', function ($usuario) use ($modu
     }
 });
 
-$router->map('GET', '/noticia/[i:id]', function ($id) use ($moduleInitializer) {
-    echo "ver noticia $id";
+$router->map('GET', '/noticias/[i:id]', function ($id) use ($moduleInitializer) {
+    try {
+        $controller = $moduleInitializer->createNoticiaController();
+        $controller->getNoticia($id);
+    } catch (EntityNotFoundException $ex) {
+        header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
+        $controller = $moduleInitializer->createError404Controller();
+        $controller->get404View();
+    }
 });
 
 

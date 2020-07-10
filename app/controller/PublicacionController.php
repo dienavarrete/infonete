@@ -36,6 +36,7 @@ class PublicacionController
     public function crearPublicacionVista()
     {
         $tipos_publicaciones = $this->tipoPublicacionDAO->getTiposPublicaciones();
+
         echo $this->renderer->render("view/crear-publicacion.mustache",
             array(
                 "title" => "Crear nueva publicación",
