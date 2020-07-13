@@ -61,8 +61,8 @@ class UsuarioDAO
             array_push($result, new Usuario(
                 $usuario["id"],
                 $usuario["usuario"],
-                $usuario["nombres"],
                 $usuario["apellido"],
+                $usuario["nombres"],
                 date($usuario["fecha_nacimiento"]),
                 new RolUsuario($usuario["id_rol"], $usuario["codigo_rol"], $usuario["descripcion_rol"]),
                 $usuario["suscripcion_activa"]

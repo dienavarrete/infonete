@@ -26,7 +26,7 @@ class ModuleInitializer
     {
         include_once("controller/InicioController.php");
         include_once("dao/NoticiaDAO.php");
-        
+
         $noticiaDao = new NoticiaDAO($this->database);
         return new InicioController($this->renderer, $noticiaDao);
     }
@@ -153,4 +153,15 @@ class ModuleInitializer
         return new PublicacionController($this->renderer, $publicacionDao, $tipoPublicacionDao, $seccionDao, $noticiaDao, $generoDAO, $estadoDAO);
     }
 
+    /**
+     * @return SuscripcionController
+     */
+    public function createSuscripcionController()
+    {
+        include_once("controller/SuscripcionController.php");
+        include_once("dao/SuscripcionDAO.php");
+        $suscripcionDao = new SuscripcionDAO($this->database);
+
+        return new SuscripcionController($this->renderer, $suscripcionDao);
+    }
 }

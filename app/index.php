@@ -47,11 +47,15 @@ $router->map('POST', '/secciones/[i:id_seccion]/noticias', function ($id_seccion
 });
 
 $router->map('GET', '/usuarios', function () use ($moduleInitializer) {
-    
+
     try {
         SessionHelper::rolOneOf(['10']);
         $controller = $moduleInitializer->createUsuarioController();
         $controller->getUsuarios();
+    } catch (UnauthorizedException $ex) {
+        header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
+        $controller = $moduleInitializer->createError404Controller();
+        $controller->get404View();
     } catch (EntityNotFoundException $ex) {
         header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
         $controller = $moduleInitializer->createError404Controller();
@@ -60,7 +64,7 @@ $router->map('GET', '/usuarios', function () use ($moduleInitializer) {
 });
 
 $router->map('GET', '/publicaciones', function () use ($moduleInitializer) {
-    
+
     try {
         SessionHelper::rolOneOf(['10', '20']);
         $controller = $moduleInitializer->createPublicacionController();
@@ -73,7 +77,7 @@ $router->map('GET', '/publicaciones', function () use ($moduleInitializer) {
 });
 
 $router->map('GET', '/publicaciones/[i:id]', function ($id) use ($moduleInitializer) {
-    
+
     try {
         $controller = $moduleInitializer->createPublicacionController();
         $controller->getPublicacion($id);
@@ -84,8 +88,13 @@ $router->map('GET', '/publicaciones/[i:id]', function ($id) use ($moduleInitiali
     }
 });
 
+$router->map('DELETE', '/publicaciones/[i:id]', function ($id) use ($moduleInitializer) {
+
+    echo "borrado $id";
+});
+
 $router->map('GET', '/crear-publicacion', function () use ($moduleInitializer) {
-    
+
     try {
         SessionHelper::rolOneOf(['10', '20']);
         $controller = $moduleInitializer->createPublicacionController();
@@ -187,6 +196,31 @@ $router->map('POST', '/login', function () use ($moduleInitializer) {
 $router->map('GET', '/logout', function () use ($moduleInitializer) {
     $controller = $moduleInitializer->createLogoutController();
     $controller->getIndex();
+});
+
+$router->map('GET', '/suscripcion', function () use ($moduleInitializer) {
+    try {
+        SessionHelper::checkSesion();
+        $controller = $moduleInitializer->createSuscripcionController();
+        $controller->getSuscripcionesView();
+    } catch (UnauthorizedException $ex) {
+        header("Location: /login");
+        exit();
+    }
+});
+
+$router->map('POST', '/suscripcion', function () use ($moduleInitializer) {
+    try {
+        SessionHelper::checkSesion();
+        $controller = $moduleInitializer->createSuscripcionController();
+        $controller->createSuscripcion();
+    } catch (UnauthorizedException $ex) {
+        //TODO: UNAUTHORIZED
+        header("Location: /login");
+        exit();
+    } catch (SuscripcionActivaException $ex) {
+        header($_SERVER["SERVER_PROTOCOL"] . ' 400 Bad Request');
+    }
 });
 
 $match = $router->match();

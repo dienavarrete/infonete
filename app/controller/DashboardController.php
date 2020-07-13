@@ -8,6 +8,7 @@ class DashboardController
     /**
      * DashboardController constructor.
      * @param Renderer $renderer
+     * @param NoticiaDAO $noticiaDAO
      */
     public function __construct(Renderer $renderer, $noticiaDAO)
     {

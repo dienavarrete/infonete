@@ -37,7 +37,7 @@ class PublicacionDAO
 
         $publicacion = $this
             ->conexion
-            ->querySingleRow("select p.id, contenido_gratuito, nombre, numero, estado_registro, fecha, id_tipo_publicacion, e.id id_estado, e.codigo codigo_estado, e.descripcion descripcion_estado from publicacion p inner join estado e on p.id_estado = e.id where p.id = $id");
+            ->querySingleRow("select p.id, contenido_gratuito, nombre, numero, estado_registro, fecha, id_tipo_publicacion, e.id id_estado, e.codigo codigo_estado, e.descripcion descripcion_estado from publicacion p inner join estado e on p.id_estado = e.id where p.id = $id and p.estado_registro = 1");
 
         return new Publicacion(
             $publicacion["id"],
@@ -57,7 +57,7 @@ class PublicacionDAO
         $result = array();
         $publicaciones = $this
             ->conexion
-            ->query("select p.id, contenido_gratuito, nombre, numero, estado_registro, fecha, id_tipo_publicacion, e.id id_estado, e.codigo codigo_estado, e.descripcion descripcion_estado from publicacion p inner join estado e on p.id_estado = e.id");
+            ->query("select p.id, contenido_gratuito, nombre, numero, estado_registro, fecha, id_tipo_publicacion, e.id id_estado, e.codigo codigo_estado, e.descripcion descripcion_estado from publicacion p inner join estado e on p.id_estado = e.id where p.estado_registro = 1");
 
         foreach ($publicaciones as $k => $publicacion) {
             array_push($result, new Publicacion(

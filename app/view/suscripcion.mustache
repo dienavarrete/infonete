@@ -1,0 +1,55 @@
+{{> header }}
+<div class="d-flex justify-content-center py-3">
+    <div style="width: 40rem;" class="card">
+        <div class="card-header text-center">
+            Comprar suscripción
+        </div>
+        <div class="card-body">
+            <form action="/publicaciones" method="post">
+                <fieldset>
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" class="form-control"
+                               autocomplete="off" required>
+                        <label for="nro_tarjeta">Nro tarjeta</label>
+                        <input type="text" id="nro_tarjeta" name="nro_tarjeta" class="form-control"
+                               autocomplete="off" required>
+                        <label for="vencimiento">Vencimiento (MM/AA)</label>
+                        <input type="text" id="vencimiento" name="vencimiento" class="form-control"
+                               autocomplete="off" required>
+                        <label for="codigo_seguridad">Código seguridad</label>
+                        <input type="text" id="codigo_seguridad" name="codigo_seguridad" class="form-control"
+                               autocomplete="off" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Comprar suscripción</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+{{> footer }}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('form').submit(function(event) {
+
+            event.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: '/suscripcion',
+                statusCode: {
+                    200: function(data) {
+                        window.location.href = `/logout`;
+                    },
+                    400: function() {
+                        alert('Ya tenés una suscripción vigente');
+                    },
+                    401: function(data) {
+                        alert('no tenés permisos suficientes');
+                    },
+                },
+            });
+
+        });
+    });
+</script>
