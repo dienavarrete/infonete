@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Usuarios</h1>
+    <h2>Administradores</h2>
     <div class="row">
         <div class="col-sm-1">
         </div>
@@ -11,19 +11,89 @@
                         <th scope="col">Usuario</th>
                         <th scope="col">Apellido</th>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Rol</th>
                     </tr>
                     </thead>
                     <tbody>
                     {{#usuarios}}
+                    {{#es_admin}}
                         <tr>
                             <td>{{usuario}}</td>
                             <td>{{apellido}}</td>
                             <td>{{nombre}}</td>
-                            <td>
-                                {{rol_usuario.descripcion}}
-                            </td>
                         </tr>
+                    {{/es_admin}}
+                    {{/usuarios}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-1">
+        </div>
+    </div>
+
+    <h2>Contenidistas</h2>
+    <div class="row">
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-10">
+            <div id="accordion">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Nombre</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#usuarios}}
+
+                    {{#es_contenidista}}
+                        <tr>
+                            <td>{{usuario}}</td>
+                            <td>{{apellido}}</td>
+                            <td>{{nombre}}</td>
+                        </tr>
+
+                    {{/es_contenidista}}
+                    {{/usuarios}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-1">
+        </div>
+    </div>
+
+    <h2>Lectores/suscriptores</h2>
+    <div class="row">
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-10">
+            <div id="accordion">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Suscripción</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#usuarios}}
+                        {{^es_contenidista}}
+                        {{^es_admin}}
+                        <tr>
+                            <td>{{usuario}}</td>
+                            <td>{{apellido}}</td>
+                            <td>{{nombre}}</td>
+                            {{#suscripcion_activa}}
+                               Suscripción activa <span class="badge badge-warning">Suscripción activa</span>
+                            {{/suscripcion_activa}}
+                        </tr>
+                        {{/es_admin}}
+                        {{/es_contenidista}}
                     {{/usuarios}}
                     </tbody>
                 </table>
