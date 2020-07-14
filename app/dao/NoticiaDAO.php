@@ -52,7 +52,7 @@ class NoticiaDAO
 
     public function getNoticiasPorUsuario()
     {
-        if ($_SESSION["usuario"] && $_SESSION["usuario"]["esta_suscripto"]) {
+        if ($_SESSION["usuario"] && $_SESSION["usuario"]["suscripcion_activa"]) {
             $noticias = $this
                 ->conexion
                 ->query("SELECT n.id, n.titulo, n.contenido, n.image_path, g.descripcion, p.fecha

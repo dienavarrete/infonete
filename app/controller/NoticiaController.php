@@ -25,15 +25,12 @@ class NoticiaController
 
         $ruta_indexphp = '/view/img/';
         $ruta_fichero_origen = $_FILES['imagen']['tmp_name'];
-        $extensiones = array('image/jpg', 'image/gif', 'image/png');
-
 
         $nuevo_nombre = md5(date(DATE_ATOM)) . "." . explode(".", $_FILES['imagen']['name'])[1];
         $ruta_nuevo_destino = dirname(__FILE__, 2) . $ruta_indexphp . $nuevo_nombre;
 
-        if (in_array($_FILES['imagen']['type'], $extensiones)) {
-            move_uploaded_file($ruta_fichero_origen, $ruta_nuevo_destino);
-        }
+        move_uploaded_file($ruta_fichero_origen, $ruta_nuevo_destino);
+        
         return $this->noticiaDAO->insertarNoticia($titulo, $contenido, $id_seccion, $id_usuario, $ruta_indexphp . $nuevo_nombre);
     }
 
