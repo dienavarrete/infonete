@@ -44,7 +44,7 @@ class Renderer
 
         $this->dompdf->loadHtml($this->mustache->render("{{> doc }}", $this->getArrayDataWithView($view, $data)));
         $this->dompdf->render();
-        $this->dompdf->stream();
+        $this->dompdf->stream("document.pdf", array("Attachment" => false));
     }
 
     private function getArrayData()
