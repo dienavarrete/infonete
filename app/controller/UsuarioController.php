@@ -9,7 +9,7 @@ class UsuarioController
     /**
      * UsuarioController constructor.
      * @param UsuarioDAO $usuarioDao
-     * @param PersonaDAO $rolUsuarioDAO
+     * @param RolUsuarioDAO $rolUsuarioDAO
      * @param Renderer $renderer
      */
     public function __construct($usuarioDao, $rolUsuarioDAO, $renderer)
@@ -31,6 +31,20 @@ class UsuarioController
             "roles" => RolUsuario::toListArrayMap($this->rolUsuarioDAO->getRoles())
         ));
         
+    }
+
+    public function getUsuariosPdf()
+    {
+        //echo "ver publicaion $id";
+        $usuarios = $this->usuarioDao->getUsuarios();
+
+
+        $this->renderer->renderPdf("view/listar-usuarios-pdf.mustache", array(
+            "title" => "Usuarios",
+            "usuarios" => Usuario::toListArrayMap($usuarios),
+            "roles" => RolUsuario::toListArrayMap($this->rolUsuarioDAO->getRoles())
+        ));
+
     }
 
     public function updateRolUsuario($id_usuario)
