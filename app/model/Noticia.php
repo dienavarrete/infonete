@@ -11,6 +11,7 @@ class Noticia
     private $id_contenidista;
     private $id_localidad;
     private $id_estado;
+    private $image_path;
 
     /**
      * Noticia constructor.
@@ -23,7 +24,7 @@ class Noticia
      * @param $id_localidad
      * @param $id_estado
      */
-    public function __construct($id, $titulo, $contenido, $estado_registro, $id_seccion, $id_contenidista, $id_localidad, $id_estado)
+    public function __construct($id, $titulo, $contenido, $estado_registro, $id_seccion, $id_contenidista, $id_localidad, $id_estado, $image_path)
     {
         $this->id = $id;
         $this->titulo = $titulo;
@@ -33,6 +34,7 @@ class Noticia
         $this->id_contenidista = $id_contenidista;
         $this->id_localidad = $id_localidad;
         $this->id_estado = $id_estado;
+        $this->image_path = $image_path;
     }
 
     /**
@@ -165,6 +167,22 @@ class Noticia
     }
 
     /**
+     * @return mixed
+     */
+    public function getImagePath()
+    {
+        return $this->image_path;
+    }
+
+    /**
+     * @param mixed $image_path
+     */
+    public function setImagePath($image_path)
+    {
+        $this->image_path = $image_path;
+    }
+
+    /**
      * @param Noticia $noticia
      *
      * @return array
@@ -180,7 +198,8 @@ class Noticia
                 "id_seccion" => $noticia->getIdSeccion(),
                 "id_contenidista" => $noticia->getIdContenidista(),
                 "id_localidad" => $noticia->getIdLocalidad(),
-                "id_estado" => $noticia->getIdEstado()
+                "id_estado" => $noticia->getIdEstado(),
+                "image_path" => $noticia->getImagePath()
             );
         } else {
             return array();

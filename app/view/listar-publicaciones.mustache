@@ -1,0 +1,135 @@
+{{> header}}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-10">
+            <div id="accordion">
+                <a class="btn btn-primary" style="margin:10px" href="/crear-publicacion">Crear publicación</a>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Numero</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#publicaciones}}
+                            <tr>
+                                <td>{{nombre}}</td>
+                                <td>{{numero}}</td>
+                                <td>{{fecha}}</td>
+                                <td>{{estado.descripcion}}</td>
+                                <td><a class="nav-link" href="/publicaciones/{{id}}">VER</a></td>
+                            </tr>
+                        {{/publicaciones}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-1">
+        </div>
+    </div>
+</div>
+{{#session.usuario.puede_generar_contenido}}
+    
+{{/session.usuario.puede_generar_contenido}}
+{{> footer}}
+
+{{#session.usuario.puede_generar_contenido}}
+    <script type="text/javascript">
+
+        $(document).ready(() => {
+            $('#form-update-status select[name=estado]').val($('#form-update-status input[name=id_estado]').val());
+
+            $('#modal-form-noticia').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var idSeccion = button.data('id-seccion');
+
+                $('#crear-noticia').click(function() {
+
+                    var data = {
+                        'titulo': $('#form-nueva-noticia input[name=titulo]').val(),
+                        'contenido': $('#form-nueva-noticia textarea[name=contenido]').val(),
+                    };
+
+                    $.ajax({
+                        type: 'POST',
+                        url: `/secciones/${idSeccion}/noticias`,
+                        data: data,
+                        statusCode: {
+                            200: function(data) {
+                                location.reload();
+                            },
+                            400: function() {
+                                alert('Mandaste fruta');
+                            },
+                            401: function(data) {
+                                alert('no tenés permisos suficientes');
+                            },
+                        },
+                    });
+                });
+
+                
+
+            });
+
+            $('#update-status').click(function() {
+                    var data = {
+                        'id_estado': $('#form-update-status select[name=estado]').val(),
+                    };
+
+                    $.ajax({
+                        type: 'POST',
+                        url: `/publicaciones/{{id}}/estado`,
+                        data: data,
+                        statusCode: {
+                            200: function(data) {
+                                location.reload();
+                            },
+                            400: function() {
+                                alert('Mandaste fruta');
+                            },
+                            401: function(data) {
+                                alert('no tenés permisos suficientes');
+                            },
+                        },
+                    });
+                });
+
+            $('#modal-form-seccion').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var idPublicacion = button.data('id-publicacion');
+
+                $('#crear-seccion').click(function() {
+
+                    var data = {
+                        'id_genero': $('select[name=genero]').val(),
+                    };
+
+                    $.ajax({
+                        type: 'POST',
+                        url: `/publicaciones/${idPublicacion}/secciones`,
+                        data: data,
+                        statusCode: {
+                            200: function(data) {
+                                location.reload();
+                            },
+                            400: function() {
+                                alert('Mandaste fruta');
+                            },
+                            401: function(data) {
+                                alert('no tenés permisos suficientes');
+                            },
+                        },
+                    });
+                });
+
+            });
+        });
+    </script>
+{{/session.usuario.puede_generar_contenido}}

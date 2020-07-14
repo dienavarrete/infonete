@@ -25,7 +25,10 @@ class ModuleInitializer
     public function createInicioController()
     {
         include_once("controller/InicioController.php");
-        return new InicioController($this->renderer);
+        include_once("dao/NoticiaDAO.php");
+
+        $noticiaDao = new NoticiaDAO($this->database);
+        return new InicioController($this->renderer, $noticiaDao);
     }
 
     /**
@@ -40,6 +43,20 @@ class ModuleInitializer
         $usuarioDao = new UsuarioDAO($this->database);
         $personaDao = new PersonaDAO($this->database);
         return new RegistroController($usuarioDao, $personaDao, $this->renderer);
+    }
+
+    /**
+     * @return UsuarioController
+     */
+    public function createUsuarioController()
+    {
+        include_once("controller/UsuarioController.php");
+        include_once("dao/UsuarioDAO.php");
+        include_once("dao/RolUsuarioDAO.php");
+
+        $usuarioDao = new UsuarioDAO($this->database);
+        $rolUsuarioDao = new RolUsuarioDAO($this->database);
+        return new UsuarioController($usuarioDao, $rolUsuarioDao, $this->renderer);
     }
 
     /**
@@ -61,8 +78,10 @@ class ModuleInitializer
     {
         include_once("controller/DashboardController.php");
         include_once("dao/UsuarioDAO.php");
+        include_once("dao/NoticiaDAO.php");
 
-        return new DashboardController($this->renderer);
+        $noticiaDAO = new NoticiaDAO($this->database);
+        return new DashboardController($this->renderer, $noticiaDAO);
     }
 
     /**
@@ -121,6 +140,7 @@ class ModuleInitializer
         include_once("dao/TipoPublicacionDAO.php");
         include_once("dao/SeccionDAO.php");
         include_once("dao/NoticiaDAO.php");
+        include_once("dao/EstadoDAO.php");
         include_once("dao/GeneroSeccionDAO.php");
 
         $publicacionDao = new PublicacionDAO($this->database);
@@ -128,8 +148,20 @@ class ModuleInitializer
         $seccionDao = new SeccionDAO($this->database);
         $noticiaDao = new NoticiaDAO($this->database);
         $generoDAO = new GeneroSeccionDAO($this->database);
+        $estadoDAO = new EstadoDAO($this->database);
 
-        return new PublicacionController($this->renderer, $publicacionDao, $tipoPublicacionDao, $seccionDao, $noticiaDao, $generoDAO);
+        return new PublicacionController($this->renderer, $publicacionDao, $tipoPublicacionDao, $seccionDao, $noticiaDao, $generoDAO, $estadoDAO);
     }
 
+    /**
+     * @return SuscripcionController
+     */
+    public function createSuscripcionController()
+    {
+        include_once("controller/SuscripcionController.php");
+        include_once("dao/SuscripcionDAO.php");
+        $suscripcionDao = new SuscripcionDAO($this->database);
+
+        return new SuscripcionController($this->renderer, $suscripcionDao);
+    }
 }

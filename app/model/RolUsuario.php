@@ -3,6 +3,7 @@
 
 class RolUsuario
 {
+    private $id;
     private $codigo;
     private $descripcion;
 
@@ -11,13 +12,29 @@ class RolUsuario
      * @param $codigo
      * @param $descripcion
      */
-    public function __construct($codigo, $descripcion)
+    public function __construct($id, $codigo, $descripcion)
     {
+        $this->id = $id;
         $this->codigo = $codigo;
         $this->descripcion = $descripcion;
     }
 
 
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
     /**
      * @return mixed
      */
@@ -59,11 +76,24 @@ class RolUsuario
     {
         if (isset($rol_usuario)) {
             return array(
+                "id" => $rol_usuario->getId(),
                 "codigo" => $rol_usuario->getCodigo(),
                 "descripcion" => $rol_usuario->getDescripcion()
             );
         } else {
             return array();
         }
+    }
+
+    
+    public static function toListArrayMap($array)
+    {
+        $r = array();
+
+        foreach ($array as $rol) {
+            array_push($r, self::toArrayMap($rol));
+        }
+
+        return $r;
     }
 }

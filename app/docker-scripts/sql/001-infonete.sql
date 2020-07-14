@@ -84,6 +84,7 @@ create table genero_seccion
 create table publicacion
 (
     id                  int primary key auto_increment,
+    nombre              varchar(50),
     contenido_gratuito  boolean,
     numero              int,
     estado_registro     boolean,
@@ -121,6 +122,7 @@ create table noticia
     id_contenidista int,
     id_localidad    int,
     id_estado       int,
+    image_path      varchar(50),
     foreign key (id_seccion)
         references seccion (id),
     foreign key (id_contenidista)

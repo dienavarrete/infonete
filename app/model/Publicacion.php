@@ -5,32 +5,35 @@ class Publicacion
 {
     private $id;
     private $contenido_gratuito;
+    private $nombre;
     private $numero;
     private $estado_registro;
     private $fecha;
     private $id_tipo_publicacion;
-    private $id_estado_publicacion;
+    private $estado;
     private $secciones;
 
     /**
      * Publicacion constructor.
      * @param $id
      * @param $contenido_gratuito
+     * @param $nombre
      * @param $numero
      * @param $estado_registro
      * @param $fecha
      * @param $id_tipo_publicacion
-     * @param $id_estado_publicacion
+     * @param Estado $estado
      */
-    public function __construct($id, $contenido_gratuito, $numero, $estado_registro, $fecha, $id_tipo_publicacion, $id_estado_publicacion)
+    public function __construct($id, $contenido_gratuito, $nombre, $numero, $estado_registro, $fecha, $id_tipo_publicacion, $estado)
     {
         $this->id = $id;
         $this->contenido_gratuito = $contenido_gratuito;
+        $this->nombre = $nombre;
         $this->numero = $numero;
         $this->estado_registro = $estado_registro;
         $this->fecha = $fecha;
         $this->id_tipo_publicacion = $id_tipo_publicacion;
-        $this->id_estado_publicacion = $id_estado_publicacion;
+        $this->estado = $estado;
     }
 
     /**
@@ -97,6 +100,22 @@ class Publicacion
     {
         $this->contenido_gratuito = $contenido_gratuito;
     }
+    
+    /**
+     * @return mixed
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    }
 
     /**
      * @return mixed
@@ -131,20 +150,21 @@ class Publicacion
     }
 
     /**
-     * @return mixed
+     * @return Estado
      */
-    public function getIdEstadoPublicacion()
+    public function getEstado()
     {
-        return $this->id_estado_publicacion;
+        return $this->estado;
     }
 
     /**
-     * @param mixed $id_estado_publicacion
+     * @param Estado $estado
      */
-    public function setIdEstadoPublicacion($id_estado_publicacion)
+    public function setEstado($estado)
     {
-        $this->id_estado_publicacion = $id_estado_publicacion;
+        $this->estado = $estado;
     }
+
 
     /**
      * @return mixed
@@ -172,16 +192,32 @@ class Publicacion
         if (isset($publicacion)) {
             return array(
                 "id" => $publicacion->getId(),
+                "nombre" => $publicacion->getNombre(),
                 "contenido_gratuito" => $publicacion->getContenidoGratuito(),
                 "numero" => $publicacion->getNumero(),
                 "estado_registro" => $publicacion->getEstadoRegistro(),
                 "fecha" => $publicacion->getFecha(),
                 "id_tipo_publicacion" => $publicacion->getIdTipoPublicacion(),
-                "id_estado_publicacion" => $publicacion->getIdEstadoPublicacion(),
+                "estado" => Estado::toArrayMap($publicacion->getEstado()),
                 "secciones" => Seccion::toListArrayMap($publicacion->getSecciones())
             );
         } else {
             return array();
         }
+    }
+
+    /**
+     * @param Publicacion[] $array
+     * @return array
+     */
+    public static function toListArrayMap($array)
+    {
+        $r = array();
+
+        foreach ($array as $publicacion) {
+            array_push($r, self::toArrayMap($publicacion));
+        }
+
+        return $r;
     }
 }
