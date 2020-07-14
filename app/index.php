@@ -91,6 +91,10 @@ $router->map('GET', '/publicaciones', function () use ($moduleInitializer) {
         header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
         $controller = $moduleInitializer->createError404Controller();
         $controller->get404View();
+    } catch (UnauthorizedException $ex) {
+        header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
+        $controller = $moduleInitializer->createError404Controller();
+        $controller->get404View();
     }
 });
 

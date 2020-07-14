@@ -23,15 +23,23 @@ class NoticiaController
         $contenido = nl2br($_POST["contenido"]);
         $id_usuario = $_SESSION["usuario"]["id"];
 
-        $ruta_indexphp = '/view/img/';
-        $ruta_fichero_origen = $_FILES['imagen']['tmp_name'];
+        $extensiones = array('image/jpg', 'image/jpeg', 'image/gif', 'image/png');
 
-        $nuevo_nombre = md5(date(DATE_ATOM)) . "." . explode(".", $_FILES['imagen']['name'])[1];
-        $ruta_nuevo_destino = dirname(__FILE__, 2) . $ruta_indexphp . $nuevo_nombre;
+        if (in_array($_FILES['imagen']['type'], $extensiones)) {
+            $ruta_indexphp = '/view/img/';
+            $ruta_fichero_origen = $_FILES['imagen']['tmp_name'];
 
-        move_uploaded_file($ruta_fichero_origen, $ruta_nuevo_destino);
-        
-        return $this->noticiaDAO->insertarNoticia($titulo, $contenido, $id_seccion, $id_usuario, $ruta_indexphp . $nuevo_nombre);
+            $nuevo_nombre = md5(date(DATE_ATOM)) . "." . explode(".", $_FILES['imagen']['name'])[1];
+            $ruta_nuevo_destino = dirname(__FILE__, 2) . $ruta_indexphp . $nuevo_nombre;
+
+            move_uploaded_file($ruta_fichero_origen, $ruta_nuevo_destino);
+
+            return $this->noticiaDAO->insertarNoticia($titulo, $contenido, $id_seccion, $id_usuario, $ruta_indexphp . $nuevo_nombre);
+        } else {
+            return $this->noticiaDAO->insertarNoticia($titulo, $contenido, $id_seccion, $id_usuario, null);
+        }
+
+
     }
 
     public function getNoticia($id)

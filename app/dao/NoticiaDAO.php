@@ -61,7 +61,7 @@ class NoticiaDAO
                 join publicacion as p on s.id_publicacion = p.id
                 join genero_seccion as g on s.id_genero = g.id
                 where p.id_estado = (select id from estado where codigo = '30')
-                order by p.fecha");
+                order by p.fecha, p.id");
 
         $result = array();
         
@@ -94,7 +94,7 @@ class NoticiaDAO
                         join genero_seccion as g on s.id_genero = g.id
                         where p.id_estado = (select id from estado where codigo = '30')
                             && p.contenido_gratuito
-                        order by p.fecha");
+                        order by p.fecha, p.id");
 
         $result = array();
         
