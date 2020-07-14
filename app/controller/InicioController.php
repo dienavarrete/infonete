@@ -18,10 +18,15 @@ class InicioController
 
     public function getIndex()
     {
+        if (($_SESSION["usuario"] && $_SESSION["usuario"]["suscripcion_activa"]) || $_SESSION["usuario"]["puede_generar_contenido"] ) {
+            $noticias = Noticia::toListArrayMap($this->noticiaDAO->getNoticiasPagasPorUsuario());
+        }else{
+            $noticias = Noticia::toListArrayMap($this->noticiaDAO->getNoticiasGratuitasPorUsuario());
+        }
         echo $this->renderer->render("view/inicio.mustache",
             array(
                 "title" => "Página inicio",
-                "noticias" => Noticia::toListArrayMap($this->noticiaDAO->getNoticiasPorUsuario())
+                "noticias" => $noticias
             ));
     }
 }

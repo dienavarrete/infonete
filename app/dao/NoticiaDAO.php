@@ -50,30 +50,18 @@ class NoticiaDAO
         return $result;
     }
 
-    public function getNoticiasPorUsuario()
+    public function getNoticiasPagasPorUsuario()
     {
-        if ($_SESSION["usuario"] && $_SESSION["usuario"]["suscripcion_activa"]) {
-            $noticias = $this
-                ->conexion
-                ->query("SELECT n.id, n.titulo, n.contenido, n.image_path, g.descripcion, p.fecha
-                    from noticia as n
-                    join seccion as s on n.id_seccion = s.id
-                    join publicacion as p on s.id_publicacion = p.id
-                    join genero_seccion as g on s.id_genero = g.id
-                    where p.id_estado = (select id from estado where codigo = '30')
-                    order by p.fecha");
-        } else {
-            $noticias = $this
-                ->conexion
-                ->query("SELECT n.id, n.titulo, n.contenido, n.image_path, g.descripcion, p.fecha
-                    from noticia as n
-                    join seccion as s on n.id_seccion = s.id
-                    join publicacion as p on s.id_publicacion = p.id
-                    join genero_seccion as g on s.id_genero = g.id
-                    where p.id_estado = (select id from estado where codigo = '30')
-                        && p.contenido_gratuito
-                    order by p.fecha");
-        }
+        
+        $noticias = $this
+            ->conexion
+            ->query("SELECT n.id, n.titulo, n.contenido, n.image_path, g.descripcion, p.fecha
+                from noticia as n
+                join seccion as s on n.id_seccion = s.id
+                join publicacion as p on s.id_publicacion = p.id
+                join genero_seccion as g on s.id_genero = g.id
+                where p.id_estado = (select id from estado where codigo = '30')
+                order by p.fecha");
 
         $result = array();
         
@@ -95,6 +83,40 @@ class NoticiaDAO
 
         return $result;
     }
+    public function getNoticiasGratuitasPorUsuario()
+    {
+        $noticias = $this
+                    ->conexion
+                    ->query("SELECT n.id, n.titulo, n.contenido, n.image_path, g.descripcion, p.fecha
+                        from noticia as n
+                        join seccion as s on n.id_seccion = s.id
+                        join publicacion as p on s.id_publicacion = p.id
+                        join genero_seccion as g on s.id_genero = g.id
+                        where p.id_estado = (select id from estado where codigo = '30')
+                            && p.contenido_gratuito
+                        order by p.fecha");
+
+        $result = array();
+        
+        if (is_array($noticias)) {
+            foreach ($noticias as $k => $noticia) {
+                array_push($result, new Noticia(
+                    $noticia["id"],
+                    $noticia["titulo"],
+                    $noticia["contenido"],
+                    $noticia["estado_registro"],
+                    $noticia["id_seccion"],
+                    $noticia["id_contenidista"],
+                    $noticia["id_localidad"],
+                    $noticia["id_estado"],
+                    $noticia["image_path"]
+                ));
+            }
+        }
+
+        return $result;
+    }
+    
 
     public function getNoticia($id)
     {
