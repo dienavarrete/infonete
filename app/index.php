@@ -1,6 +1,7 @@
 <?php
 
 require_once("third-party/altorouter/AltoRouter.php");
+require_once("third-party/dompdf-master/src/Autoloader.php");
 require_once("ModuleInitializer.php");
 require_once("helper/SessionHelper.php");
 
@@ -52,6 +53,23 @@ $router->map('GET', '/usuarios', function () use ($moduleInitializer) {
         SessionHelper::rolOneOf(['10']);
         $controller = $moduleInitializer->createUsuarioController();
         $controller->getUsuarios();
+    } catch (UnauthorizedException $ex) {
+        header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
+        $controller = $moduleInitializer->createError404Controller();
+        $controller->get404View();
+    } catch (EntityNotFoundException $ex) {
+        header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
+        $controller = $moduleInitializer->createError404Controller();
+        $controller->get404View();
+    }
+});
+
+$router->map('GET', '/usuarios/pdf', function () use ($moduleInitializer) {
+
+    try {
+        SessionHelper::rolOneOf(['10']);
+        $controller = $moduleInitializer->createUsuarioController();
+        $controller->getUsuariosPdf();
     } catch (UnauthorizedException $ex) {
         header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
         $controller = $moduleInitializer->createError404Controller();
