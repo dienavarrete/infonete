@@ -52,7 +52,7 @@ class UsuarioDAO
     {
         $usuarios = $this
             ->conexion
-            ->query("select us.id, us.usuario, p.nombres nombres, p.apellido apellido, p.fecha_nacimiento, r.id id_rol, r.codigo codigo_rol, r.descripcion descripcion_rol from usuario us left join persona p on us.id_persona = p.id inner join rol r on us.id_rol = r.id ");
+            ->query("select us.id, us.usuario, p.nombres nombres, p.apellido apellido, p.fecha_nacimiento, r.id id_rol, r.codigo codigo_rol, r.descripcion descripcion_rol , (select count(1) suscripcion_activa from suscripcion where id_usuario = us.id and now() between fecha_vigencia_desde and fecha_vigencia_hasta) suscripcion_activa from usuario us left join persona p on us.id_persona = p.id inner join rol r on us.id_rol = r.id ");
 
 
         $result = array();
