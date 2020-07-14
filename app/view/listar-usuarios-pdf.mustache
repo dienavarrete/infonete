@@ -89,7 +89,10 @@
                             <td>{{apellido}}</td>
                             <td>{{nombre}}</td>
                             {{#suscripcion_activa}}
-                               Suscripción activa <span class="badge badge-warning">Suscripción activa</span>
+                                activa
+                            {{/suscripcion_activa}}
+                            {{^suscripcion_activa}}
+                                inactiva
                             {{/suscripcion_activa}}
                         </tr>
                         {{/es_admin}}

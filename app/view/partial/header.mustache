@@ -22,14 +22,17 @@
         {{#session.usuario}}
             <ul class="navbar-nav my-2 my-sm-0">
                 <li class="nav-item"><span class="navbar-brand mb-0 h1"><i class="fa fa-user" aria-hidden="true"></i>
-                    {{session.usuario.usuario}}</span></li>
-                {{#session.usuario.suscripcion_activa}}
-                    <li><span class="badge badge-warning">Suscripción activa</span></li>
-                {{/session.usuario.suscripcion_activa}}
-                {{^session.usuario.suscripcion_activa}}
-                    <li><a class="nav-link" href="/suscripcion">Suscripción</a></li>
-                {{/session.usuario.suscripcion_activa}}
+                    {{session.usuario.usuario}}</span>
+                </li>
 
+                {{^session.usuario.puede_generar_contenido}}
+                    {{#session.usuario.suscripcion_activa}}
+                        <li><span class="badge badge-warning">Suscripción activa</span></li>
+                    {{/session.usuario.suscripcion_activa}}
+                    {{^session.usuario.suscripcion_activa}}
+                        <li><a class="nav-link" href="/suscripcion">Suscripción</a></li>
+                    {{/session.usuario.suscripcion_activa}}
+                {{/session.usuario.puede_generar_contenido}}
 
                 <li><a class="nav-link" href="/logout">Cerrar sesión</a></li>
             </ul>
